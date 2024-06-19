@@ -1,37 +1,52 @@
 using GeradorDeTestes.WinApp.Compartilhado;
+using GeradorTestes.WinApp.ModuloDisciplina;
 
 namespace GeradorTestes.WinApp
 {
     public partial class TelaPrincipalForm : Form
     {
+        public static TelaPrincipalForm Instancia { get; private set; }
+
         ControladorBase controlador;
         ContextoDados contexto;
+
+        IRepositorioDisciplina repositorioDisciplina;
 
         public TelaPrincipalForm()
         {
             InitializeComponent();
+            Instancia = this;
 
             contexto = new ContextoDados(true);
+
+            repositorioDisciplina = new RepositorioDisciplinaEmArquivo(contexto);
+        }
+
+        public void AtualizarRodape(string texto)
+        {
+            statusLabelPrincipal.Text = texto;
         }
 
         private void disciplinaMenuItem_Click(object sender, EventArgs e)
         {
+            controlador = new ControladorDisciplina(repositorioDisciplina);
 
+            ConfigurarTelaPrincipal(controlador);
         }
 
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
-
+            controlador.Adicionar();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-
+            controlador.Editar();
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-
+            controlador.Excluir();
         }
 
         private void ConfigurarTelaPrincipal(ControladorBase controladorSelecionado)

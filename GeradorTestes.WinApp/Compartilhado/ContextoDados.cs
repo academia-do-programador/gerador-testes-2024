@@ -1,14 +1,16 @@
-﻿namespace GeradorDeTestes.WinApp.Compartilhado
+﻿using GeradorTestes.WinApp.ModuloDisciplina;
+
+namespace GeradorDeTestes.WinApp.Compartilhado
 {
     public class ContextoDados
     {
         private string caminho = $"C:\\temp\\GeradorDeTestes\\dados.json";
 
-        //public List<Disciplina> Disciplinas { get; private set; }
+        public List<Disciplina> Disciplinas { get; private set; }
 
         public ContextoDados()
         {
-            //Disciplinas = new List<Disciplina>();
+            Disciplinas = new List<Disciplina>();
         }
 
         public ContextoDados(bool carregarDados) : this()
@@ -36,7 +38,7 @@
             if (ctx == null)
                 return;
 
-            //Disciplinas = ctx.Disciplinas;
+            Disciplinas = ctx.Disciplinas;
         }
     }
 }
