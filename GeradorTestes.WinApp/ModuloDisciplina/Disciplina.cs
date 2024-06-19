@@ -58,5 +58,10 @@ namespace GeradorTestes.WinApp.ModuloDisciplina
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return $"{Nome}";
+        }
     }
 }

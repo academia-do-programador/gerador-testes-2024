@@ -60,5 +60,10 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
             return erros;
         }
+
+        public override string ToString()
+        {
+            return $"{Nome}";
+        }
     }
 }
