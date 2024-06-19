@@ -1,4 +1,5 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
+using GeradorTestes.WinApp.ModuloMateria;
 
 namespace GeradorTestes.WinApp.ModuloDisciplina
 {
@@ -6,9 +7,14 @@ namespace GeradorTestes.WinApp.ModuloDisciplina
     {
         public string Nome { get; set; }
 
-        public Disciplina() { }
+        public List<Materia> Materias { get; set; }
 
-        public Disciplina(string nome)
+        public Disciplina()
+        {
+            Materias = new List<Materia>();
+        }
+
+        public Disciplina(string nome) : this()
         {
             Nome = nome;
         }
@@ -31,6 +37,26 @@ namespace GeradorTestes.WinApp.ModuloDisciplina
                 erros.Add("O nome da disciplina deve conter ao menos 3 caracteres!");
 
             return erros;
+        }
+
+        public bool AdicionarMateria(Materia materia)
+        {
+            if (Materias.Contains(materia))
+                return false;
+
+            Materias.Add(materia);
+
+            return true;
+        }
+
+        public bool RemoverMateria(Materia materia)
+        {
+            if (!Materias.Contains(materia))
+                return false;
+
+            Materias.Remove(materia);
+
+            return true;
         }
     }
 }
