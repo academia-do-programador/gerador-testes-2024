@@ -43,12 +43,73 @@ namespace GeradorTestes.WinApp.ModuloDisciplina
 
         public override void Editar()
         {
-            throw new NotImplementedException();
+            int idSelecionado = tabelaDisciplina.ObterRegistroSelecionado();
+
+            Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(idSelecionado);
+
+            if (disciplinaSelecionada == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
+
+            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(disciplinasCadastradas);
+
+            telaDisciplina.Disciplina = disciplinaSelecionada;
+
+            DialogResult resultado = telaDisciplina.ShowDialog();
+
+            if (resultado != DialogResult.OK)
+                return;
+
+            Disciplina registroEditado = telaDisciplina.Disciplina;
+
+            repositorioDisciplina.Editar(idSelecionado, registroEditado);
+
+            CarregarRegistros();
+
+            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{registroEditado.Nome}\" foi editado com sucesso!");
         }
 
         public override void Excluir()
         {
-            throw new NotImplementedException();
+            int idSelecionado = tabelaDisciplina.ObterRegistroSelecionado();
+
+            Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(idSelecionado);
+
+            if (disciplinaSelecionada == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show(
+                $"Você deseja realmente excluir o registro \"{disciplinaSelecionada.Nome}\" ",
+                "Confirmar Exclusão",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+                );
+
+            if (resposta != DialogResult.Yes)
+                return;
+
+            repositorioDisciplina.Excluir(idSelecionado);
+
+            CarregarRegistros();
+
+            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{disciplinaSelecionada.Nome}\" foi exluído com sucesso!");
         }
 
         public override UserControl ObterListagem()
