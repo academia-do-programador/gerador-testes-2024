@@ -11,6 +11,8 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
         public Disciplina Disciplina { get; set; }
 
+        public Materia() { }
+
         public Materia(string nome, SerieMateriaEnum serie, Disciplina disciplina)
         {
             Nome = nome;

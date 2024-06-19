@@ -26,9 +26,10 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
         public override void Adicionar()
         {
+            List<Materia> materiasCadastradas = repositorioMateria.SelecionarTodos();
             List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
 
-            TelaMateriaForm telaMateria = new TelaMateriaForm(disciplinasCadastradas);
+            TelaMateriaForm telaMateria = new TelaMateriaForm(materiasCadastradas, disciplinasCadastradas);
 
             DialogResult resultado = telaMateria.ShowDialog();
 
@@ -48,12 +49,79 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
         public override void Editar()
         {
-            throw new NotImplementedException();
+            int idSelecionado = tabelaMateria.ObterRegistroSelecionado();
+
+            Materia materiaSelecionada = repositorioMateria.SelecionarPorId(idSelecionado);
+
+            if (materiaSelecionada == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            List<Materia> materiasCadastradas = repositorioMateria.SelecionarTodos();
+            List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
+
+            TelaMateriaForm telaMateria = new TelaMateriaForm(materiasCadastradas, disciplinasCadastradas);
+
+            telaMateria.Materia = materiaSelecionada;
+
+            DialogResult resultado = telaMateria.ShowDialog();
+
+            if (resultado != DialogResult.OK)
+                return;
+
+            Materia registroEditado = telaMateria.Materia;
+
+            materiaSelecionada.RemoverDisciplina();
+            registroEditado.AtribuirDisciplina();
+
+            repositorioMateria.Editar(idSelecionado, registroEditado);
+
+            CarregarRegistros();
+
+            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{registroEditado.Nome}\" foi editado com sucesso!");
         }
 
         public override void Excluir()
         {
-            throw new NotImplementedException();
+            int idSelecionado = tabelaMateria.ObterRegistroSelecionado();
+
+            Materia materiaSelecionada = repositorioMateria.SelecionarPorId(idSelecionado);
+
+            if (materiaSelecionada == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show(
+                $"Você deseja realmente excluir o registro \"{materiaSelecionada.Nome}\" ",
+                "Confirmar Exclusão",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+                );
+
+            if (resposta != DialogResult.Yes)
+                return;
+
+            materiaSelecionada.RemoverDisciplina();
+
+            repositorioMateria.Excluir(idSelecionado);
+
+            CarregarRegistros();
+
+            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{materiaSelecionada.Nome}\" foi exluído com sucesso!");
         }
 
         public override UserControl ObterListagem()
