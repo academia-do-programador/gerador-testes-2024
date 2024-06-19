@@ -1,4 +1,5 @@
 ﻿using GeradorTestes.WinApp.ModuloDisciplina;
+using GeradorTestes.WinApp.ModuloMateria;
 
 namespace GeradorDeTestes.WinApp.Compartilhado
 {
@@ -6,11 +7,13 @@ namespace GeradorDeTestes.WinApp.Compartilhado
     {
         private string caminho = $"C:\\temp\\GeradorDeTestes\\dados.json";
 
-        public List<Disciplina> Disciplinas { get; private set; }
+        public List<Disciplina> Disciplinas { get; set; }
+        public List<Materia> Materias { get; set; }
 
         public ContextoDados()
         {
             Disciplinas = new List<Disciplina>();
+            Materias = new List<Materia>();
         }
 
         public ContextoDados(bool carregarDados) : this()
@@ -39,6 +42,7 @@ namespace GeradorDeTestes.WinApp.Compartilhado
                 return;
 
             Disciplinas = ctx.Disciplinas;
+            Materias = ctx.Materias;
         }
     }
 }

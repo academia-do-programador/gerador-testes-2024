@@ -1,25 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using GeradorTestes.WinApp.ModuloDisciplina;
 
 namespace GeradorTestes.WinApp.ModuloMateria
 {
     public partial class TelaMateriaForm : Form
     {
-        public TelaMateriaForm()
+        public Materia Materia
         {
-            InitializeComponent();
+            get => materia;
         }
 
-        private void txtNome_TextChanged(object sender, EventArgs e)
-        {
+        private Materia materia;
 
+        public TelaMateriaForm(List<Disciplina> disciplinasCadastradas)
+        {
+            InitializeComponent();
+
+            foreach (Disciplina disciplina in disciplinasCadastradas)
+                cmbDisciplinas.Items.Add(disciplina);
+        }
+
+        private void btnGravar_Click(object sender, EventArgs e)
+        {
+            string nome = txtNome.Text;
+
+            Disciplina disciplina = (Disciplina)cmbDisciplinas.SelectedItem;
+
+            SerieMateriaEnum serie;
+
+            if (rdbPrimeiraSerie.Checked)
+                serie = SerieMateriaEnum.PrimeiraSerie;
+            else
+                serie = SerieMateriaEnum.SegundaSerie;
+
+            materia = new Materia(nome, serie, disciplina);
+
+            List<string> erros = materia.Validar();
+
+            if (erros.Count > 0)
+            {
+                TelaPrincipalForm.Instancia.AtualizarRodape(erros[0]);
+
+                DialogResult = DialogResult.None;
+            }
         }
     }
 }

@@ -18,16 +18,11 @@ namespace GeradorTestes.WinApp.ModuloMateria
             Disciplina = disciplina;
         }
 
-        public bool AtribuirDisciplina(Disciplina disciplina)
+        public bool AtribuirDisciplina()
         {
             bool conseguiuAdicionar = Disciplina.AdicionarMateria(this);
 
-            if (!conseguiuAdicionar)
-                return false;
-
-            Disciplina = disciplina;
-
-            return true;
+            return conseguiuAdicionar;
         }
 
         public bool RemoverDisciplina()

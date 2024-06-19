@@ -75,7 +75,6 @@
             txtNome.Name = "txtNome";
             txtNome.Size = new Size(376, 27);
             txtNome.TabIndex = 0;
-            txtNome.TextChanged += txtNome_TextChanged;
             // 
             // btnGravar
             // 
@@ -86,6 +85,7 @@
             btnGravar.TabIndex = 7;
             btnGravar.Text = "Gravar";
             btnGravar.UseVisualStyleBackColor = true;
+            btnGravar.Click += btnGravar_Click;
             // 
             // btnCancelar
             // 

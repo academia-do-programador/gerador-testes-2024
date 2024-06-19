@@ -1,5 +1,3 @@
-using GeradorTestes.WinApp.ModuloMateria;
-
 namespace GeradorTestes.WinApp
 {
     internal static class Program
@@ -13,7 +11,7 @@ namespace GeradorTestes.WinApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new TelaMateriaForm());
+            Application.Run(new TelaPrincipalForm());
         }
     }
 }

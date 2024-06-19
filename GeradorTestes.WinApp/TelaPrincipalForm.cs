@@ -1,5 +1,6 @@
 using GeradorDeTestes.WinApp.Compartilhado;
 using GeradorTestes.WinApp.ModuloDisciplina;
+using GeradorTestes.WinApp.ModuloMateria;
 
 namespace GeradorTestes.WinApp
 {
@@ -11,6 +12,7 @@ namespace GeradorTestes.WinApp
         ContextoDados contexto;
 
         IRepositorioDisciplina repositorioDisciplina;
+        IRepositorioMateria repositorioMateria;
 
         public TelaPrincipalForm()
         {
@@ -20,6 +22,7 @@ namespace GeradorTestes.WinApp
             contexto = new ContextoDados(true);
 
             repositorioDisciplina = new RepositorioDisciplinaEmArquivo(contexto);
+            repositorioMateria = new RepositorioMateriaEmArquivo(contexto);
         }
 
         public void AtualizarRodape(string texto)
@@ -30,6 +33,13 @@ namespace GeradorTestes.WinApp
         private void disciplinaMenuItem_Click(object sender, EventArgs e)
         {
             controlador = new ControladorDisciplina(repositorioDisciplina);
+
+            ConfigurarTelaPrincipal(controlador);
+        }
+
+        private void materiasMenuItem_Click(object sender, EventArgs e)
+        {
+            controlador = new ControladorMateria(repositorioMateria, repositorioDisciplina);
 
             ConfigurarTelaPrincipal(controlador);
         }
