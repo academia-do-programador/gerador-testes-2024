@@ -97,6 +97,7 @@
             questoesMenuItem.ShortcutKeys = Keys.F3;
             questoesMenuItem.Size = new Size(180, 24);
             questoesMenuItem.Text = "Questões";
+            questoesMenuItem.Click += questoesMenuItem_Click;
             // 
             // testesMenuItem
             // 
