@@ -8,6 +8,25 @@ namespace GeradorTestes.WinApp.ModuloQuestao
         public Questao Questao
         {
             get => questao;
+            set
+            {
+                txtId.Text = value.Id.ToString();
+                txtEnunciado.Text = value.Enunciado;
+
+                cmbMaterias.SelectedItem = value.Materia;
+
+                int qtdAlternativas = 0;
+
+                foreach (Alternativa a in value.Alternativas)
+                {
+                    listAlternativas.Items.Add(a);
+
+                    if (a.Correta)
+                        listAlternativas.SetItemChecked(qtdAlternativas, true);
+
+                    qtdAlternativas++;
+                }
+            }
         }
         private Questao questao;
 
@@ -74,7 +93,13 @@ namespace GeradorTestes.WinApp.ModuloQuestao
             for (int i = 0; i < listAlternativas.Items.Count; i++)
             {
                 if (i != itemSelecionado)
+                {
                     listAlternativas.SetItemChecked(i, false);
+
+                    Alternativa alternativaNaoChecada = (Alternativa)listAlternativas.Items[i];
+
+                    alternativaNaoChecada.Correta = false;
+                }
             }
 
             Alternativa alternativaChecada = (Alternativa)listAlternativas.Items[itemSelecionado];
