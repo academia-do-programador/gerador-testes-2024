@@ -3,12 +3,13 @@ using GeradorTestes.WinApp.ModuloDisciplina;
 
 namespace GeradorTestes.WinApp.ModuloTeste
 {
-    public class ControladorTeste : ControladorBase
+    public class ControladorTeste : ControladorBase, IControladorDuplicavel
     {
         public override string TipoCadastro => "Testes";
         public override string ToolTipAdicionar => "Cadastrar um novo Teste";
         public override string ToolTipEditar => "Editar um Teste existente";
         public override string ToolTipExcluir => "Excluir um Teste existente";
+        public string ToolTipDuplicar => "Duplicar um teste existente";
 
         TabelaTesteControl tabelaTeste;
 
@@ -80,6 +81,45 @@ namespace GeradorTestes.WinApp.ModuloTeste
             CarregarRegistros();
 
             TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{testeSelecionado.Titulo}\" foi excluído com sucesso!");
+        }
+
+        public void Duplicar()
+        {
+            int idSelecionado = tabelaTeste.ObterRegistroSelecionado();
+
+            Teste testeSelecionado = repositorioTeste.SelecionarPorId(idSelecionado);
+
+            if (testeSelecionado == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
+
+            TelaTesteForm telaTeste = new TelaTesteForm(disciplinasCadastradas);
+
+            telaTeste.Teste = testeSelecionado;
+
+            DialogResult resultado = telaTeste.ShowDialog();
+
+            if (resultado != DialogResult.OK)
+                return;
+
+            Teste registroDuplicado = telaTeste.Teste;
+
+            repositorioTeste.Cadastrar(registroDuplicado);
+
+            repositorioTeste.AdicionarQuestoes(registroDuplicado, telaTeste.QuestoesSorteadas);
+
+            CarregarRegistros();
+
+            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{registroDuplicado.Titulo}\" foi criado em uma duplicação com sucesso!");
         }
 
         public override UserControl ObterListagem()

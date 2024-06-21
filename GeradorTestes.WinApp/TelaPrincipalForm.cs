@@ -79,6 +79,12 @@ namespace GeradorTestes.WinApp
             controlador.Excluir();
         }
 
+        private void btnDuplicar_Click(object sender, EventArgs e)
+        {
+            if (controlador is IControladorDuplicavel controladorDuplicavel)
+                controladorDuplicavel.Duplicar();
+        }
+
         private void ConfigurarTelaPrincipal(ControladorBase controladorSelecionado)
         {
             lblTipoCadastro.Text = "Cadastro de " + controladorSelecionado.TipoCadastro;
@@ -94,6 +100,7 @@ namespace GeradorTestes.WinApp
             btnExcluir.Enabled = controladorSelecionado is ControladorBase;
 
             btnFiltrar.Enabled = controladorSelecionado is IControladorFiltravel;
+            btnDuplicar.Enabled = controladorSelecionado is IControladorDuplicavel;
 
             ConfigurarToolTips(controladorSelecionado);
         }
@@ -106,6 +113,9 @@ namespace GeradorTestes.WinApp
 
             if (controladorSelecionado is IControladorFiltravel controladorFiltravel)
                 btnFiltrar.ToolTipText = controladorFiltravel.ToolTipFiltrar;
+
+            if (controladorSelecionado is IControladorDuplicavel controladorDuplicavel)
+                btnDuplicar.ToolTipText = controladorDuplicavel.ToolTipDuplicar;
         }
 
         private void ConfigurarListagem(ControladorBase controladorSelecionado)

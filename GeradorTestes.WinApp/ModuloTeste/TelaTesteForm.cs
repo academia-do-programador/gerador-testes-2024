@@ -9,6 +9,21 @@ namespace GeradorTestes.WinApp.ModuloTeste
         public Teste Teste
         {
             get => teste;
+            set
+            {
+                this.Text = "Duplicação de Teste";
+
+                txtTitulo.PlaceholderText = "Digite um novo título para o teste duplicado";
+
+                cmbDisciplinas.SelectedItem = value.Disciplina;
+
+                if (value.ProvaRecuperacao)
+                    chkProvaRecuperacao.Checked = true;
+                else
+                    cmbMaterias.SelectedItem = value.Materia;
+
+                txtQtdQuestoes.Value = value.Questoes.Count;
+            }
         }
         private Teste teste;
 
