@@ -49,6 +49,7 @@ namespace GeradorDeTestes.WinApp.Compartilhado
 
             Disciplinas = ctx.Disciplinas;
             Materias = ctx.Materias;
+            Questoes = ctx.Questoes;
             Testes = ctx.Testes;
         }
     }

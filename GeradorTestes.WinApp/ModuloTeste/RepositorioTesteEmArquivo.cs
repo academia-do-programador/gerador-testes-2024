@@ -20,15 +20,19 @@ namespace GeradorTestes.WinApp.ModuloTeste
             contexto.Gravar();
         }
 
-        public void RemoverQuestoes(Teste teste)
+        public override bool Excluir(int id)
         {
-            foreach (Questao q in teste.Questoes)
+            Teste testeSelecionado = SelecionarPorId(id);
+
+            for (int i = 0; i < testeSelecionado.Questoes.Count; i++)
             {
-                q.UtilizadaEmTeste = false;
-                teste.RemoverQuestao(q);
+                Questao questao = testeSelecionado.Questoes[i];
+
+                questao.UtilizadaEmTeste = false;
+                testeSelecionado.RemoverQuestao(questao);
             }
 
-            contexto.Gravar();
+            return base.Excluir(id);
         }
 
         protected override List<Teste> ObterRegistros()

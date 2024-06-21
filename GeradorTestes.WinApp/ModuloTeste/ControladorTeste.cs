@@ -50,7 +50,36 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
         public override void Excluir()
         {
-            throw new NotImplementedException();
+            int idSelecionado = tabelaTeste.ObterRegistroSelecionado();
+
+            Teste testeSelecionado = repositorioTeste.SelecionarPorId(idSelecionado);
+
+            if (testeSelecionado == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            DialogResult resposta = MessageBox.Show(
+             $"Você deseja realmente excluir o registro \"{testeSelecionado.Titulo}\" ",
+             "Confirmar Exclusão",
+             MessageBoxButtons.YesNo,
+             MessageBoxIcon.Warning
+             );
+
+            if (resposta != DialogResult.Yes)
+                return;
+
+            repositorioTeste.Excluir(idSelecionado);
+
+            CarregarRegistros();
+
+            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{testeSelecionado.Titulo}\" foi excluído com sucesso!");
         }
 
         public override UserControl ObterListagem()

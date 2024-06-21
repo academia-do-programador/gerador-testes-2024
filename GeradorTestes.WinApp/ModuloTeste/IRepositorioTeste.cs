@@ -10,6 +10,5 @@ namespace GeradorTestes.WinApp.ModuloTeste
         List<Teste> SelecionarTodos();
 
         void AdicionarQuestoes(Teste teste, List<Questao> questoes);
-        void RemoverQuestoes(Teste teste);
     }
 }
