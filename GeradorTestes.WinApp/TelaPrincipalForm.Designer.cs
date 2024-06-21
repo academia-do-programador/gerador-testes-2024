@@ -121,6 +121,7 @@
             // 
             // btnAdicionar
             // 
+            btnAdicionar.Enabled = false;
             btnAdicionar.Font = new Font("Segoe UI", 11.25F);
             btnAdicionar.Image = Properties.Resources.btnAdicionar;
             btnAdicionar.ImageScaling = ToolStripItemImageScaling.None;
@@ -133,6 +134,7 @@
             // 
             // btnEditar
             // 
+            btnEditar.Enabled = false;
             btnEditar.Font = new Font("Segoe UI", 11.25F);
             btnEditar.Image = Properties.Resources.btnEditar;
             btnEditar.ImageScaling = ToolStripItemImageScaling.None;
@@ -145,6 +147,7 @@
             // 
             // btnExcluir
             // 
+            btnExcluir.Enabled = false;
             btnExcluir.Font = new Font("Segoe UI", 11.25F);
             btnExcluir.Image = Properties.Resources.btnExcluir;
             btnExcluir.ImageScaling = ToolStripItemImageScaling.None;
@@ -162,6 +165,7 @@
             // 
             // btnFiltrar
             // 
+            btnFiltrar.Enabled = false;
             btnFiltrar.Font = new Font("Segoe UI", 11.25F);
             btnFiltrar.Image = Properties.Resources.btnFiltrar;
             btnFiltrar.ImageScaling = ToolStripItemImageScaling.None;
@@ -178,6 +182,7 @@
             // 
             // btnVisualizar
             // 
+            btnVisualizar.Enabled = false;
             btnVisualizar.Font = new Font("Segoe UI", 11.25F);
             btnVisualizar.Image = Properties.Resources.btnVisualizar;
             btnVisualizar.ImageScaling = ToolStripItemImageScaling.None;
@@ -186,6 +191,7 @@
             btnVisualizar.Padding = new Padding(5);
             btnVisualizar.Size = new Size(110, 38);
             btnVisualizar.Text = "Visualizar";
+            btnVisualizar.Click += btnVisualizar_Click;
             // 
             // toolStripSeparator3
             // 
@@ -194,6 +200,7 @@
             // 
             // btnDuplicar
             // 
+            btnDuplicar.Enabled = false;
             btnDuplicar.Font = new Font("Segoe UI", 11.25F);
             btnDuplicar.Image = Properties.Resources.btnDuplicar;
             btnDuplicar.ImageScaling = ToolStripItemImageScaling.None;
@@ -211,6 +218,7 @@
             // 
             // btnGerarPdf
             // 
+            btnGerarPdf.Enabled = false;
             btnGerarPdf.Font = new Font("Segoe UI", 11.25F);
             btnGerarPdf.Image = Properties.Resources.btnGerarPdf;
             btnGerarPdf.ImageScaling = ToolStripItemImageScaling.None;

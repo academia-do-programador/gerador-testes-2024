@@ -3,13 +3,14 @@ using GeradorTestes.WinApp.ModuloDisciplina;
 
 namespace GeradorTestes.WinApp.ModuloTeste
 {
-    public class ControladorTeste : ControladorBase, IControladorDuplicavel
+    public class ControladorTeste : ControladorBase, IControladorDuplicavel, IControladorVisualizavel
     {
         public override string TipoCadastro => "Testes";
         public override string ToolTipAdicionar => "Cadastrar um novo Teste";
         public override string ToolTipEditar => "Editar um Teste existente";
         public override string ToolTipExcluir => "Excluir um Teste existente";
         public string ToolTipDuplicar => "Duplicar um teste existente";
+        public string ToolTipVisualizar => "Visualizar detalhes de um teste existente";
 
         TabelaTesteControl tabelaTeste;
 
@@ -120,6 +121,29 @@ namespace GeradorTestes.WinApp.ModuloTeste
             CarregarRegistros();
 
             TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{registroDuplicado.Titulo}\" foi criado em uma duplicação com sucesso!");
+        }
+
+        public void Visualizar()
+        {
+            int idSelecionado = tabelaTeste.ObterRegistroSelecionado();
+
+            Teste testeSelecionado = repositorioTeste.SelecionarPorId(idSelecionado);
+
+            if (testeSelecionado == null)
+            {
+                MessageBox.Show(
+                    "Você precisa selecionar um registro para executar esta ação!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            TelaVisualizacaoTesteForm telaVisualizacao =
+                new TelaVisualizacaoTesteForm(testeSelecionado);
+
+            telaVisualizacao.ShowDialog();
         }
 
         public override UserControl ObterListagem()

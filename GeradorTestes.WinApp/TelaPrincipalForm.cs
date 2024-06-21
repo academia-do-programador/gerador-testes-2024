@@ -79,6 +79,12 @@ namespace GeradorTestes.WinApp
             controlador.Excluir();
         }
 
+        private void btnVisualizar_Click(object sender, EventArgs e)
+        {
+            if (controlador is IControladorVisualizavel controladorVisualizavel)
+                controladorVisualizavel.Visualizar();
+        }
+
         private void btnDuplicar_Click(object sender, EventArgs e)
         {
             if (controlador is IControladorDuplicavel controladorDuplicavel)
@@ -101,6 +107,7 @@ namespace GeradorTestes.WinApp
 
             btnFiltrar.Enabled = controladorSelecionado is IControladorFiltravel;
             btnDuplicar.Enabled = controladorSelecionado is IControladorDuplicavel;
+            btnVisualizar.Enabled = controladorSelecionado is IControladorVisualizavel;
 
             ConfigurarToolTips(controladorSelecionado);
         }
@@ -116,6 +123,9 @@ namespace GeradorTestes.WinApp
 
             if (controladorSelecionado is IControladorDuplicavel controladorDuplicavel)
                 btnDuplicar.ToolTipText = controladorDuplicavel.ToolTipDuplicar;
+
+            if (controladorSelecionado is IControladorVisualizavel controladorVisualizavel)
+                btnVisualizar.ToolTipText = controladorVisualizavel.ToolTipVisualizar;
         }
 
         private void ConfigurarListagem(ControladorBase controladorSelecionado)
