@@ -1,4 +1,5 @@
 ﻿using GeradorDeTestes.WinApp.Compartilhado;
+using GeradorTestes.WinApp.ModuloMateria;
 
 namespace GeradorTestes.WinApp.ModuloQuestao
 {
@@ -6,6 +7,15 @@ namespace GeradorTestes.WinApp.ModuloQuestao
     {
         public RepositorioQuestaoEmArquivo(ContextoDados contexto) : base(contexto)
         {
+        }
+
+        public override void Cadastrar(Questao novoRegistro)
+        {
+            Materia materiaSelecionada = novoRegistro.Materia;
+
+            materiaSelecionada.AdicionarQuestao(novoRegistro);
+
+            base.Cadastrar(novoRegistro);
         }
 
         protected override List<Questao> ObterRegistros()

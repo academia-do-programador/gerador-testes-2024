@@ -1,5 +1,6 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
 using GeradorTestes.WinApp.ModuloDisciplina;
+using GeradorTestes.WinApp.ModuloQuestao;
 
 namespace GeradorTestes.WinApp.ModuloMateria
 {
@@ -11,9 +12,14 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
         public Disciplina Disciplina { get; set; }
 
-        public Materia() { }
+        public List<Questao> Questoes { get; set; }
 
-        public Materia(string nome, SerieMateriaEnum serie, Disciplina disciplina)
+        public Materia()
+        {
+            Questoes = new List<Questao>();
+        }
+
+        public Materia(string nome, SerieMateriaEnum serie, Disciplina disciplina) : this()
         {
             Nome = nome;
             Serie = serie;
@@ -37,6 +43,32 @@ namespace GeradorTestes.WinApp.ModuloMateria
             Disciplina = null;
 
             return true;
+        }
+
+        public void AdicionarQuestao(Questao questao)
+        {
+            if (Questoes.Contains(questao))
+                return;
+
+            Questoes.Add(questao);
+        }
+
+        public void RemoverQuestao(Questao questao)
+        {
+            if (!Questoes.Contains(questao))
+                return;
+
+            Questoes.Remove(questao);
+        }
+
+        public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
+        {
+            Random random = new Random();
+
+            return Questoes
+                .OrderBy(q => random.Next())
+                .Take(quantidadeQuestoes)
+                .ToList();
         }
 
         public override void AtualizarRegistro(EntidadeBase novoRegistro)

@@ -1,5 +1,6 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
 using GeradorTestes.WinApp.ModuloMateria;
+using GeradorTestes.WinApp.ModuloQuestao;
 
 namespace GeradorTestes.WinApp.ModuloDisciplina
 {
@@ -62,6 +63,21 @@ namespace GeradorTestes.WinApp.ModuloDisciplina
         public override string ToString()
         {
             return $"{Nome}";
+        }
+
+        public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
+        {
+            List<Questao> questoesRelacionadas = new List<Questao>();
+
+            foreach (Materia mat in Materias)
+                questoesRelacionadas.AddRange(mat.Questoes);
+
+            Random random = new Random();
+
+            return questoesRelacionadas
+                .OrderBy(q => random.Next())
+                .Take(quantidadeQuestoes)
+                .ToList();
         }
     }
 }

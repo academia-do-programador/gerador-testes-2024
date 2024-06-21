@@ -16,9 +16,12 @@ namespace GeradorTestes.WinApp.ModuloQuestao
             get { return Alternativas.Find(a => a.Correta); }
         }
 
+        public bool UtilizadaEmTeste { get; set; }
+
         public Questao()
         {
             Alternativas = new List<Alternativa>();
+            UtilizadaEmTeste = false;
         }
 
         public Questao(string enunciado, Materia materia, List<Alternativa> alternativas) : this()

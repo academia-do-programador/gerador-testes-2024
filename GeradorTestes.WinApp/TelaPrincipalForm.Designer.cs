@@ -105,6 +105,7 @@
             testesMenuItem.ShortcutKeys = Keys.F4;
             testesMenuItem.Size = new Size(180, 24);
             testesMenuItem.Text = "Testes";
+            testesMenuItem.Click += testesMenuItem_Click;
             // 
             // toolbox
             // 

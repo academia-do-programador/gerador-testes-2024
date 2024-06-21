@@ -1,6 +1,7 @@
 ﻿using GeradorTestes.WinApp.ModuloDisciplina;
 using GeradorTestes.WinApp.ModuloMateria;
 using GeradorTestes.WinApp.ModuloQuestao;
+using GeradorTestes.WinApp.ModuloTeste;
 
 namespace GeradorDeTestes.WinApp.Compartilhado
 {
@@ -11,12 +12,14 @@ namespace GeradorDeTestes.WinApp.Compartilhado
         public List<Disciplina> Disciplinas { get; set; }
         public List<Materia> Materias { get; set; }
         public List<Questao> Questoes { get; set; }
+        public List<Teste> Testes { get; set; }
 
         public ContextoDados()
         {
             Disciplinas = new List<Disciplina>();
             Materias = new List<Materia>();
             Questoes = new List<Questao>();
+            Testes = new List<Teste>();
         }
 
         public ContextoDados(bool carregarDados) : this()
@@ -46,7 +49,7 @@ namespace GeradorDeTestes.WinApp.Compartilhado
 
             Disciplinas = ctx.Disciplinas;
             Materias = ctx.Materias;
-            Questoes = ctx.Questoes;
+            Testes = ctx.Testes;
         }
     }
 }

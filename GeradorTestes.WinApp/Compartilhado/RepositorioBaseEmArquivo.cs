@@ -18,7 +18,7 @@ namespace GeradorDeTestes.WinApp.Compartilhado
                 contadorId = ObterRegistros().Max(e => e.Id) + 1;
         }
 
-        public void Cadastrar(T novoRegistro)
+        public virtual void Cadastrar(T novoRegistro)
         {
             novoRegistro.Id = contadorId++;
 
