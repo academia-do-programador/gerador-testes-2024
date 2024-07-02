@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GeradorTestes.Dominio\GeradorTestes.Dominio.csproj" />
     <ProjectReference Include="..\GeradorTestes.Infra.Arquivo\GeradorTestes.Infra.Arquivo.csproj" />
+    <ProjectReference Include="..\GeradorTestes.Infra.Sql\GeradorTestes.Infra.Sql.csproj" />
   </ItemGroup>
 
   <ItemGroup>
