@@ -5,10 +5,10 @@ using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloQuestao;
 using GeradorTestes.Dominio.ModuloTeste;
-using GeradorTestes.Infra.Arquivos.ModuloQuestao;
 using GeradorTestes.Infra.Arquivos.ModuloTeste;
 using GeradorTestes.Infra.Sql.ModuloDisciplina;
 using GeradorTestes.Infra.Sql.ModuloMateria;
+using GeradorTestes.Infra.Sql.ModuloQuestao;
 using GeradorTestes.WinApp.ModuloDisciplina;
 using GeradorTestes.WinApp.ModuloMateria;
 using GeradorTestes.WinApp.ModuloQuestao;
@@ -37,7 +37,7 @@ namespace GeradorTestes.WinApp
 
             repositorioDisciplina = new RepositorioDisciplinaEmSql();
             repositorioMateria = new RepositorioMateriaEmSql();
-            repositorioQuestao = new RepositorioQuestaoEmArquivo(contexto);
+            repositorioQuestao = new RepositorioQuestaoEmSql();
             repositorioTeste = new RepositorioTesteEmArquivo(contexto);
         }
 

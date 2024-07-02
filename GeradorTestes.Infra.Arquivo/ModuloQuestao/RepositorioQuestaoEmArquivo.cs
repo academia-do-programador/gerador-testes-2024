@@ -23,5 +23,22 @@ namespace GeradorTestes.Infra.Arquivos.ModuloQuestao
         {
             return contexto.Questoes;
         }
+
+        public void AdicionarAlternativas(Questao questao, List<Alternativa> alternativasSelecionadas)
+        {
+            foreach (Alternativa a in alternativasSelecionadas)
+                questao.AdicionarAlternativa(a);
+
+            contexto.Gravar();
+        }
+
+        public void AtualizarAlternativas(Questao questao, List<Alternativa> alternativasSelecionadas)
+        {
+            questao.Alternativas.Clear();
+
+            contexto.Gravar();
+
+            AdicionarAlternativas(questao, alternativasSelecionadas);
+        }
     }
 }

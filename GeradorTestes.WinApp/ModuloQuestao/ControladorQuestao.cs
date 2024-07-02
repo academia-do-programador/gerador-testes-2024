@@ -37,6 +37,10 @@ namespace GeradorTestes.WinApp.ModuloQuestao
 
             repositorioQuestao.Cadastrar(novoRegistro);
 
+            List<Alternativa> alternativasSelecionadas = telaQuestao.AlternativasSelecionadas;
+
+            repositorioQuestao.AdicionarAlternativas(novoRegistro, alternativasSelecionadas);
+
             CarregarRegistros();
 
             TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{novoRegistro.Enunciado}\" foi criado com sucesso!");
@@ -73,6 +77,11 @@ namespace GeradorTestes.WinApp.ModuloQuestao
             Questao registroEditado = telaQuestao.Questao;
 
             repositorioQuestao.Editar(idSelecionado, registroEditado);
+
+            List<Alternativa> alternativasSelecionadas = telaQuestao.AlternativasSelecionadas;
+
+            repositorioQuestao
+                .AtualizarAlternativas(registroEditado, alternativasSelecionadas);
 
             CarregarRegistros();
 

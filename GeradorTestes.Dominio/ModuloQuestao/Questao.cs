@@ -31,6 +31,30 @@ namespace GeradorTestes.Dominio.ModuloQuestao
             Alternativas = alternativas;
         }
 
+        public bool AtribuirMateria(Materia materia)
+        {
+            if (Materia.Questoes.Contains(this))
+                return false;
+
+            Materia = materia;
+
+            Materia.AdicionarQuestao(this);
+
+            return true;
+        }
+
+        public void AdicionarAlternativa(Alternativa alternativa)
+        {
+            if (Alternativas.Contains(alternativa))
+                return;
+
+            Alternativas.Add(alternativa);
+
+            alternativa.AtribuirQuestao(this);
+
+            return;
+        }
+
         public override List<string> Validar()
         {
             List<string> erros = new List<string>();
