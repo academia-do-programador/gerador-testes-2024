@@ -1,6 +1,7 @@
 ﻿using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 using Microsoft.Data.SqlClient;
 
 namespace GeradorTestes.Infra.Sql.ModuloDisciplina
@@ -14,8 +15,8 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             enderecoBanco = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=GeradorTestesDb;Integrated Security=True;Pooling=False";
         }
 
-        #region slq queries
-        private string sqlInserir =
+        #region SQL queries
+        private const string sqlInserir =
             @"INSERT INTO [TBDISCIPLINA]
                 (
                     [NOME]
@@ -25,26 +26,26 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
                     @NOME
                 )";
 
-        private string sqlEditar =
+        private const string sqlEditar =
             @"UPDATE [TBDISCIPLINA]	
 		        SET
 			        [NOME] = @NOME
 		        WHERE
 			        [ID] = @ID";
 
-        private string sqlExcluir =
+        private const string sqlExcluir =
             @"DELETE FROM [TBDISCIPLINA]
 		        WHERE
 			        [ID] = @ID";
 
-        private string sqlSelecionarTodos =
+        private const string sqlSelecionarTodos =
             @"SELECT 
 		        [ID],
                 [NOME]
 	        FROM 
 		        [TBDISCIPLINA]";
 
-        private string sqlSelecionarPorId =
+        private const string sqlSelecionarPorId =
             @"SELECT 
 		        [ID],
                 [NOME]
@@ -53,7 +54,7 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
 		    WHERE
                 [ID] = @ID";
 
-        private string sqlSelecionarPorNome =
+        private const string sqlSelecionarPorNome =
             @"SELECT 
 		        [ID],
                 [NOME]
@@ -63,7 +64,7 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
 		    WHERE
                 [NOME] = @NOME";
 
-        private string sqlSelecionarMateriasDaDisciplina =>
+        private const string sqlSelecionarMateriasDaDisciplina =
             @"SELECT 
 		        [ID],
                 [NOME],
@@ -73,7 +74,7 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
 		    WHERE
                 [DISCIPLINA_ID] = @DISCIPLINA_ID";
 
-        private string sqlSelecionarQuestoesDaMateria =>
+        private const string sqlSelecionarQuestoesDaMateria =
             @"SELECT 
 		        [ID],
                 [ENUNCIADO],
@@ -84,13 +85,16 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
 		    WHERE
                 [MATERIA_ID] = @MATERIA_ID AND [UTILIZA_DA_EM_TESTE] = 0";
 
-        protected string sqlExisteRegistro =>
-             @"SELECT 
-		        COUNT(*)
+        private const string sqlSelecionarTestesDisciplina =
+            @"SELECT 
+		        [ID],
+                [TITULO],
+                [DATA_GERACAO],
+                [PROVA_RECUPERACAO],
 	        FROM 
-		        [TBDISCIPLINA]
+		        [TBTESTE]
 		    WHERE
-                [ID] = @ID";
+                [DISCIPLINA_ID] = @DISCIPLINA_ID";
         #endregion
 
         public void Cadastrar(Disciplina novaDisciplina)
@@ -173,7 +177,10 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             conexaoComBanco.Close();
 
             if (disciplina != null)
+            {
                 CarregarMaterias(disciplina);
+                CarregarTestes(disciplina);
+            }
 
             return disciplina;
         }
@@ -203,6 +210,12 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             return contatos;
         }
 
+        private void ConfigurarParametrosDisciplina(Disciplina disciplina, SqlCommand comando)
+        {
+            comando.Parameters.AddWithValue("ID", disciplina.Id);
+            comando.Parameters.AddWithValue("NOME", disciplina.Nome);
+        }
+
         private Disciplina ConverterParaDisciplina(SqlDataReader leitor)
         {
             Disciplina disciplina = new Disciplina()
@@ -212,12 +225,6 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             };
 
             return disciplina;
-        }
-
-        private void ConfigurarParametrosDisciplina(Disciplina disciplina, SqlCommand comando)
-        {
-            comando.Parameters.AddWithValue("ID", disciplina.Id);
-            comando.Parameters.AddWithValue("NOME", disciplina.Nome);
         }
 
         private void CarregarMaterias(Disciplina disciplina)
@@ -246,20 +253,6 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
                 disciplina.AdicionarMateria(materia);
         }
 
-        private Materia ConverterParaMateria(SqlDataReader leitor)
-        {
-            Materia materia = new Materia()
-            {
-                Id = Convert.ToInt32(leitor["ID"]),
-                Nome = Convert.ToString(leitor["NOME"]),
-                Serie = (SerieMateriaEnum)leitor["SERIE"],
-            };
-
-            CarregarQuestoes(materia);
-
-            return materia;
-        }
-
         private void CarregarQuestoes(Materia materia)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
@@ -286,6 +279,46 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
                 materia.AdicionarQuestao(questao);
         }
 
+        private void CarregarTestes(Disciplina disciplina)
+        {
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoSelecao =
+                new SqlCommand(sqlSelecionarTestesDisciplina, conexaoComBanco);
+
+            comandoSelecao.Parameters.AddWithValue("DISCIPLINA_ID", disciplina.Id);
+
+            conexaoComBanco.Open();
+
+            SqlDataReader leitorTeste = comandoSelecao.ExecuteReader();
+
+            List<Teste> testes = new List<Teste>();
+
+            while (leitorTeste.Read())
+            {
+                Teste questao = ConverterParaTeste(leitorTeste);
+
+                testes.Add(questao);
+            }
+
+            foreach (Teste teste in testes)
+                teste.AtribuirDisciplina(disciplina);
+        }
+
+        private Materia ConverterParaMateria(SqlDataReader leitor)
+        {
+            Materia materia = new Materia()
+            {
+                Id = Convert.ToInt32(leitor["ID"]),
+                Nome = Convert.ToString(leitor["NOME"]),
+                Serie = (SerieMateriaEnum)leitor["SERIE"],
+            };
+
+            CarregarQuestoes(materia);
+
+            return materia;
+        }
+
         private Questao ConverterParaQuestao(SqlDataReader leitor)
         {
             Questao questao = new Questao()
@@ -296,6 +329,27 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             };
 
             return questao;
+        }
+
+        private Teste ConverterParaTeste(SqlDataReader leitor)
+        {
+            Teste teste = new Teste()
+            {
+                Id = Convert.ToInt32(leitor["ID"]),
+                Titulo = Convert.ToString(leitor["TITULO"]),
+                DataGeracao = Convert.ToDateTime(leitor["DATA_GERACAO"]),
+                ProvaRecuperacao = Convert.ToBoolean(leitor["PROVA_RECUPERACAO"]),
+            };
+
+            Materia materiaSelecionada = ConverterParaMateria(leitor);
+
+            teste.AtribuirMateria(materiaSelecionada);
+
+            Disciplina disciplinaSelecionada = ConverterParaDisciplina(leitor);
+
+            teste.AtribuirDisciplina(disciplinaSelecionada);
+
+            return teste;
         }
     }
 }
