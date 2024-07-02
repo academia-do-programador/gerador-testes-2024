@@ -96,6 +96,17 @@ namespace GeradorTestes.WinApp.ModuloDisciplina
                 return;
             }
 
+            if (disciplinaSelecionada.Materias.Count > 0)
+            {
+                MessageBox.Show(
+                    "Você precisa remover as matérias relacionadas antes de excluir a disciplina!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             DialogResult resposta = MessageBox.Show(
                 $"Você deseja realmente excluir o registro \"{disciplinaSelecionada.Nome}\" ",
                 "Confirmar Exclusão",

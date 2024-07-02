@@ -9,12 +9,10 @@ namespace GeradorTestes.Dominio.ModuloDisciplina
         public string Nome { get; set; }
 
         public List<Materia> Materias { get; set; }
-        public List<Questao> Questoes { get; set; }
 
         public Disciplina()
         {
             Materias = new List<Materia>();
-            Questoes = new List<Questao>();
         }
 
         public Disciplina(string nome) : this()
