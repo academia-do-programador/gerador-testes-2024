@@ -34,13 +34,57 @@ namespace GeradorTestes.Dominio.ModuloTeste
             DataGeracao = DateTime.Now;
         }
 
+        public void AtribuirDisciplina(Disciplina disciplinaSelecionada)
+        {
+            if (disciplinaSelecionada == null)
+                return;
+
+            disciplinaSelecionada.AdicionarTeste(this);
+
+            Disciplina = disciplinaSelecionada;
+        }
+
+        public void RemoverDisciplina()
+        {
+            if (Disciplina == null)
+                return;
+
+            Disciplina.RemoverTeste(this);
+
+            Disciplina = null;
+        }
+
+        public void AtribuirMateria(Materia materiaSelecionada)
+        {
+            if (materiaSelecionada == null)
+                return;
+
+            Materia = materiaSelecionada;
+
+            materiaSelecionada.AdicionarTeste(this);
+        }
+
+        public void RemoverMateria()
+        {
+            if (Materia == null)
+                return;
+
+            Materia.RemoverTeste(this);
+
+            Materia = null;
+        }
+
         public void AdicionarQuestao(Questao questao)
         {
+            questao.UtilizadaEmTeste = true;
+
             Questoes.Add(questao);
         }
 
         public void RemoverQuestao(Questao questao)
         {
+            questao.UtilizadaEmTeste = false;
+
             Questoes.Remove(questao);
         }
 

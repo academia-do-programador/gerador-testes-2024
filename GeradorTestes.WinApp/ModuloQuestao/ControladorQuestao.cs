@@ -105,6 +105,17 @@ namespace GeradorTestes.WinApp.ModuloQuestao
                 return;
             }
 
+            if (questaoSelecionada.UtilizadaEmTeste)
+            {
+                MessageBox.Show(
+                    "Não é possível excluir uma questão sendo utilizada em um teste!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             DialogResult resposta = MessageBox.Show(
              $"Você deseja realmente excluir o registro \"{questaoSelecionada.Enunciado}\" ",
              "Confirmar Exclusão",

@@ -1,6 +1,7 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
 using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.Dominio.ModuloDisciplina
 {
@@ -9,10 +10,12 @@ namespace GeradorTestes.Dominio.ModuloDisciplina
         public string Nome { get; set; }
 
         public List<Materia> Materias { get; set; }
+        public List<Teste> Testes { get; set; }
 
         public Disciplina()
         {
             Materias = new List<Materia>();
+            Testes = new List<Teste>();
         }
 
         public Disciplina(string nome) : this()
@@ -58,6 +61,22 @@ namespace GeradorTestes.Dominio.ModuloDisciplina
             Materias.Remove(materia);
 
             return true;
+        }
+
+        public void AdicionarTeste(Teste teste)
+        {
+            if (Testes.Contains(teste))
+                return;
+
+            Testes.Add(teste);
+        }
+
+        public void RemoverTeste(Teste teste)
+        {
+            if (!Testes.Contains(teste))
+                return;
+
+            Testes.Remove(teste);
         }
 
         public override string ToString()

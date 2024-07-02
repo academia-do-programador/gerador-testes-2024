@@ -1,6 +1,7 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
 using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.Dominio.ModuloMateria
 {
@@ -13,10 +14,12 @@ namespace GeradorTestes.Dominio.ModuloMateria
         public Disciplina Disciplina { get; set; }
 
         public List<Questao> Questoes { get; set; }
+        public List<Teste> Testes { get; set; }
 
         public Materia()
         {
             Questoes = new List<Questao>();
+            Testes = new List<Teste>();
         }
 
         public Materia(string nome, SerieMateriaEnum serie, Disciplina disciplina) : this()
@@ -59,6 +62,22 @@ namespace GeradorTestes.Dominio.ModuloMateria
                 return;
 
             Questoes.Remove(questao);
+        }
+
+        public void AdicionarTeste(Teste teste)
+        {
+            if (Testes.Contains(teste))
+                return;
+
+            Testes.Add(teste);
+        }
+
+        public void RemoverTeste(Teste teste)
+        {
+            if (!Testes.Contains(teste))
+                return;
+
+            Testes.Remove(teste);
         }
 
         public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
