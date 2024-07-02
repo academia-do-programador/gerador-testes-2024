@@ -1,4 +1,4 @@
-﻿namespace GeradorTestes.WinApp.ModuloMateria
+﻿namespace GeradorTestes.Dominio.ModuloMateria
 {
     public enum SerieMateriaEnum
     {

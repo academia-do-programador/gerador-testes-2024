@@ -1,4 +1,14 @@
+using GeradorDeTestes.Dominio.Compartilhado;
+using GeradorDeTestes.Infra.Arquivos.Compartilhado;
 using GeradorDeTestes.WinApp.Compartilhado;
+using GeradorTestes.Dominio.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloMateria;
+using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
+using GeradorTestes.Infra.Arquivos.ModuloDisciplina;
+using GeradorTestes.Infra.Arquivos.ModuloMateria;
+using GeradorTestes.Infra.Arquivos.ModuloQuestao;
+using GeradorTestes.Infra.Arquivos.ModuloTeste;
 using GeradorTestes.WinApp.ModuloDisciplina;
 using GeradorTestes.WinApp.ModuloMateria;
 using GeradorTestes.WinApp.ModuloQuestao;
@@ -25,10 +35,10 @@ namespace GeradorTestes.WinApp
 
             contexto = new ContextoDados(true);
 
-            repositorioDisciplina = new RepositorioDisciplinaEmArquivo(contexto);
-            repositorioMateria = new RepositorioMateriaEmArquivo(contexto);
-            repositorioQuestao = new RepositorioQuestaoEmArquivo(contexto);
-            repositorioTeste = new RepositorioTesteEmArquivo(contexto);
+            repositorioDisciplina = new RepositorioDisciplinaEmArquivo();
+            repositorioMateria = new RepositorioMateriaEmArquivo();
+            repositorioQuestao = new RepositorioQuestaoEmArquivo();
+            repositorioTeste = new RepositorioTesteEmArquivo();
         }
 
         public void AtualizarRodape(string texto)

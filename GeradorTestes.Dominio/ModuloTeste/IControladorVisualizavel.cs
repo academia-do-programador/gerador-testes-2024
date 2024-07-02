@@ -1,4 +1,4 @@
-﻿namespace GeradorTestes.WinApp.ModuloTeste
+﻿namespace GeradorTestes.Dominio.ModuloTeste
 {
     public interface IControladorVisualizavel
     {

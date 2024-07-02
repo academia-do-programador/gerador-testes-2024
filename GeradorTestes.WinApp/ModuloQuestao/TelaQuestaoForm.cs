@@ -1,5 +1,6 @@
-﻿using GeradorTestes.WinApp.Compartilhado.Extensoes;
-using GeradorTestes.WinApp.ModuloMateria;
+﻿using GeradorTestes.Dominio.ModuloMateria;
+using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.WinApp.Compartilhado.Extensoes;
 
 namespace GeradorTestes.WinApp.ModuloQuestao
 {

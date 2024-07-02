@@ -1,4 +1,4 @@
-﻿namespace GeradorTestes.WinApp.ModuloQuestao
+﻿namespace GeradorTestes.Dominio.ModuloQuestao
 {
     public class Alternativa
     {

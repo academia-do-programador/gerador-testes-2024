@@ -1,7 +1,7 @@
-﻿using GeradorDeTestes.WinApp.Compartilhado;
-using GeradorTestes.WinApp.ModuloQuestao;
+﻿using GeradorDeTestes.Infra.Arquivos.Compartilhado;
+using GeradorTestes.Infra.Arquivos.ModuloQuestao;
 
-namespace GeradorTestes.WinApp.ModuloTeste
+namespace GeradorTestes.Infra.Arquivos.ModuloTeste
 {
     public class RepositorioTesteEmArquivo : RepositorioBaseEmArquivo<Teste>, IRepositorioTeste
     {

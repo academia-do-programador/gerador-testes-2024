@@ -1,8 +1,8 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
-using GeradorTestes.WinApp.ModuloMateria;
-using GeradorTestes.WinApp.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloMateria;
+using GeradorTestes.Dominio.ModuloQuestao;
 
-namespace GeradorTestes.WinApp.ModuloDisciplina
+namespace GeradorTestes.Dominio.ModuloDisciplina
 {
     public class Disciplina : EntidadeBase
     {

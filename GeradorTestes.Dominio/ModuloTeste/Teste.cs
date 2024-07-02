@@ -1,9 +1,9 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
-using GeradorTestes.WinApp.ModuloDisciplina;
-using GeradorTestes.WinApp.ModuloMateria;
-using GeradorTestes.WinApp.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloMateria;
+using GeradorTestes.Dominio.ModuloQuestao;
 
-namespace GeradorTestes.WinApp.ModuloTeste
+namespace GeradorTestes.Dominio.ModuloTeste
 {
     public class Teste : EntidadeBase
     {

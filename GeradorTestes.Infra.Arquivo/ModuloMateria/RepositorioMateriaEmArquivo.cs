@@ -1,6 +1,7 @@
-﻿using GeradorDeTestes.WinApp.Compartilhado;
+﻿using GeradorDeTestes.Infra.Arquivos.Compartilhado;
+using GeradorTestes.Dominio.ModuloMateria;
 
-namespace GeradorTestes.WinApp.ModuloMateria
+namespace GeradorTestes.Infra.Arquivos.ModuloMateria
 {
     public class RepositorioMateriaEmArquivo : RepositorioBaseEmArquivo<Materia>, IRepositorioMateria
     {

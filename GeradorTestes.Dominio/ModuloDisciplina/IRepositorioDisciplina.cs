@@ -1,4 +1,4 @@
-﻿namespace GeradorTestes.WinApp.ModuloDisciplina
+﻿namespace GeradorTestes.Dominio.ModuloDisciplina
 {
     public interface IRepositorioDisciplina
     {

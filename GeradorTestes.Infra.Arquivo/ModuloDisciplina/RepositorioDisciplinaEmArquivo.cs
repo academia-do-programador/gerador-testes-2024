@@ -1,6 +1,7 @@
-﻿using GeradorDeTestes.WinApp.Compartilhado;
+﻿using GeradorDeTestes.Infra.Arquivos.Compartilhado;
+using GeradorTestes.Dominio.ModuloDisciplina;
 
-namespace GeradorTestes.WinApp.ModuloDisciplina
+namespace GeradorTestes.Infra.Arquivos.ModuloDisciplina
 {
     public class RepositorioDisciplinaEmArquivo : RepositorioBaseEmArquivo<Disciplina>, IRepositorioDisciplina
     {

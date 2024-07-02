@@ -1,7 +1,7 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
-using GeradorTestes.WinApp.ModuloMateria;
+using GeradorTestes.Dominio.ModuloMateria;
 
-namespace GeradorTestes.WinApp.ModuloQuestao
+namespace GeradorTestes.Dominio.ModuloQuestao
 {
     public class Questao : EntidadeBase
     {

@@ -1,4 +1,4 @@
-﻿namespace GeradorDeTestes.WinApp.Compartilhado
+﻿namespace GeradorDeTestes.Dominio.Compartilhado
 {
     public interface IControladorFiltravel
     {

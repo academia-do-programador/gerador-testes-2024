@@ -1,6 +1,6 @@
 ﻿using GeradorDeTestes.ConsoleApp.Compartilhado;
 
-namespace GeradorDeTestes.WinApp.Compartilhado
+namespace GeradorDeTestes.Infra.Arquivos.Compartilhado
 {
     public abstract class RepositorioBaseEmArquivo<T> where T : EntidadeBase
     {

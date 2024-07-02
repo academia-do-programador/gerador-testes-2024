@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GeradorDeTestes.WinApp.Compartilhado
+namespace GeradorDeTestes.Infra.Arquivos.Compartilhado.Extensoes
 {
     public static class FileInfoExtensions
     {

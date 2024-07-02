@@ -1,6 +1,6 @@
-﻿using GeradorTestes.WinApp.ModuloQuestao;
+﻿using GeradorTestes.Dominio.ModuloQuestao;
 
-namespace GeradorTestes.WinApp.ModuloTeste
+namespace GeradorTestes.Dominio.ModuloTeste
 {
     public interface IRepositorioTeste
     {

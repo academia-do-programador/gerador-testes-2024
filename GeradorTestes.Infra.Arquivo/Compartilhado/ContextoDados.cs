@@ -1,9 +1,10 @@
-﻿using GeradorTestes.WinApp.ModuloDisciplina;
-using GeradorTestes.WinApp.ModuloMateria;
-using GeradorTestes.WinApp.ModuloQuestao;
-using GeradorTestes.WinApp.ModuloTeste;
+﻿using GeradorDeTestes.Infra.Arquivos.Compartilhado.Extensoes;
+using GeradorTestes.Dominio.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloMateria;
+using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 
-namespace GeradorDeTestes.WinApp.Compartilhado
+namespace GeradorDeTestes.Infra.Arquivos.Compartilhado
 {
     public class ContextoDados
     {
