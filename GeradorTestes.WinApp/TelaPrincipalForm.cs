@@ -1,14 +1,13 @@
 using GeradorDeTestes.Dominio.Compartilhado;
-using GeradorDeTestes.Infra.Arquivos.Compartilhado;
 using GeradorDeTestes.WinApp.Compartilhado;
 using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloQuestao;
 using GeradorTestes.Dominio.ModuloTeste;
-using GeradorTestes.Infra.Arquivos.ModuloTeste;
 using GeradorTestes.Infra.Sql.ModuloDisciplina;
 using GeradorTestes.Infra.Sql.ModuloMateria;
 using GeradorTestes.Infra.Sql.ModuloQuestao;
+using GeradorTestes.Infra.Sql.ModuloTeste;
 using GeradorTestes.WinApp.ModuloDisciplina;
 using GeradorTestes.WinApp.ModuloMateria;
 using GeradorTestes.WinApp.ModuloQuestao;
@@ -21,7 +20,6 @@ namespace GeradorTestes.WinApp
         public static TelaPrincipalForm Instancia { get; private set; }
 
         ControladorBase controlador;
-        ContextoDados contexto;
 
         IRepositorioDisciplina repositorioDisciplina;
         IRepositorioMateria repositorioMateria;
@@ -33,12 +31,10 @@ namespace GeradorTestes.WinApp
             InitializeComponent();
             Instancia = this;
 
-            contexto = new ContextoDados(true);
-
             repositorioDisciplina = new RepositorioDisciplinaEmSql();
             repositorioMateria = new RepositorioMateriaEmSql();
             repositorioQuestao = new RepositorioQuestaoEmSql();
-            repositorioTeste = new RepositorioTesteEmArquivo(contexto);
+            repositorioTeste = new RepositorioTesteEmSql();
         }
 
         public void AtualizarRodape(string texto)

@@ -1,6 +1,7 @@
 ﻿using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 using Microsoft.Data.SqlClient;
 
 namespace GeradorTestes.Infra.Sql.ModuloMateria
@@ -15,7 +16,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
         }
 
         #region SQL queries
-        private string sqlInserir =>
+        private const string sqlInserir =
             @"INSERT INTO [TBMATERIA]
             (
                 [NOME],
@@ -29,7 +30,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
                 @DISCIPLINA_ID
             );";
 
-        private string sqlEditar =>
+        private const string sqlEditar =
             @"UPDATE [TBMATERIA]
 		    SET
                 [NOME] = @NOME,
@@ -43,7 +44,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 		        WHERE
 			        [ID] = @ID";
 
-        private string sqlSelecionarTodos =
+        private const string sqlSelecionarTodos =
             @"SELECT 
 	            MT.ID,
                 MT.NOME,
@@ -55,7 +56,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
                 TBDISCIPLINA AS D                     
                     ON MT.DISCIPLINA_ID = D.ID";
 
-        private string sqlSelecionarPorId =
+        private const string sqlSelecionarPorId =
             @"SELECT 
 	            MT.ID,
                 MT.NOME,
@@ -69,7 +70,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             WHERE
                 MT.ID = @ID";
 
-        private string sqlExisteRegistro =
+        private const string sqlExisteRegistro =
              @"SELECT 
 		        COUNT(*)
 	        FROM 
@@ -77,7 +78,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 		    WHERE
                 [ID] = @ID";
 
-        private string sqlSelecionarQuestoesDaMateria =>
+        private const string sqlSelecionarQuestoesDaMateria =
             @"SELECT 
 		                [ID],
                         [ENUNCIADO],
@@ -87,6 +88,17 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 
 		            WHERE
                         [MATERIA_ID] = @MATERIA_ID AND";
+
+        private const string sqlSelecionarTestesMateria =
+            @"SELECT 
+		        [ID],
+                [TITULO],
+                [DATA_GERACAO],
+                [PROVA_RECUPERACAO],
+	        FROM 
+		        [TBTESTE]
+		    WHERE
+                [MATERIA_ID] = @MATERIA_ID";
         #endregion
 
         public void Cadastrar(Materia materia)
@@ -169,7 +181,10 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             conexaoComBanco.Close();
 
             if (materia != null)
+            {
                 CarregarQuestoes(materia);
+                CarregarTestes(materia);
+            }
 
             return materia;
         }
@@ -197,6 +212,58 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             conexaoComBanco.Close();
 
             return materias;
+        }
+
+        private void CarregarQuestoes(Materia materia)
+        {
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoSelecao =
+                new SqlCommand(sqlSelecionarQuestoesDaMateria, conexaoComBanco);
+
+            comandoSelecao.Parameters.AddWithValue("MATERIA_ID", materia.Id);
+
+            conexaoComBanco.Open();
+
+            SqlDataReader leitorQuestoes = comandoSelecao.ExecuteReader();
+
+            List<Questao> questoes = new List<Questao>();
+
+            while (leitorQuestoes.Read())
+            {
+                Questao questao = ConverterParaQuestao(leitorQuestoes);
+
+                questoes.Add(questao);
+            }
+
+            foreach (Questao questao in questoes)
+                materia.AdicionarQuestao(questao);
+        }
+
+        private void CarregarTestes(Materia materia)
+        {
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoSelecao =
+                new SqlCommand(sqlSelecionarTestesMateria, conexaoComBanco);
+
+            comandoSelecao.Parameters.AddWithValue("MATERIA_ID", materia.Id);
+
+            conexaoComBanco.Open();
+
+            SqlDataReader leitorTeste = comandoSelecao.ExecuteReader();
+
+            List<Teste> testes = new List<Teste>();
+
+            while (leitorTeste.Read())
+            {
+                Teste questao = ConverterParaTeste(leitorTeste);
+
+                testes.Add(questao);
+            }
+
+            foreach (Teste teste in testes)
+                teste.AtribuirMateria(materia);
         }
 
         private void ConfigurarParametrosMateria(Materia materia, SqlCommand comando)
@@ -233,32 +300,6 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             return disciplina;
         }
 
-        private void CarregarQuestoes(Materia materia)
-        {
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-
-            SqlCommand comandoSelecao =
-                new SqlCommand(sqlSelecionarQuestoesDaMateria, conexaoComBanco);
-
-            comandoSelecao.Parameters.AddWithValue("MATERIA_ID", materia.Id);
-
-            conexaoComBanco.Open();
-
-            SqlDataReader leitorQuestoes = comandoSelecao.ExecuteReader();
-
-            List<Questao> questoes = new List<Questao>();
-
-            while (leitorQuestoes.Read())
-            {
-                Questao questao = ConverterParaQuestao(leitorQuestoes);
-
-                questoes.Add(questao);
-            }
-
-            foreach (Questao questao in questoes)
-                materia.AdicionarQuestao(questao);
-        }
-
         private Questao ConverterParaQuestao(SqlDataReader leitor)
         {
             Questao questao = new Questao()
@@ -271,5 +312,17 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             return questao;
         }
 
+        private Teste ConverterParaTeste(SqlDataReader leitor)
+        {
+            Teste teste = new Teste()
+            {
+                Id = Convert.ToInt32(leitor["ID"]),
+                Titulo = Convert.ToString(leitor["TITULO"]),
+                DataGeracao = Convert.ToDateTime(leitor["DATA_GERACAO"]),
+                ProvaRecuperacao = Convert.ToBoolean(leitor["PROVA_RECUPERACAO"]),
+            };
+
+            return teste;
+        }
     }
 }

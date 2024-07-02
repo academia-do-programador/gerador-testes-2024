@@ -210,23 +210,6 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             return contatos;
         }
 
-        private void ConfigurarParametrosDisciplina(Disciplina disciplina, SqlCommand comando)
-        {
-            comando.Parameters.AddWithValue("ID", disciplina.Id);
-            comando.Parameters.AddWithValue("NOME", disciplina.Nome);
-        }
-
-        private Disciplina ConverterParaDisciplina(SqlDataReader leitor)
-        {
-            Disciplina disciplina = new Disciplina()
-            {
-                Id = Convert.ToInt32(leitor["ID"]),
-                Nome = Convert.ToString(leitor["NOME"]),
-            };
-
-            return disciplina;
-        }
-
         private void CarregarMaterias(Disciplina disciplina)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
@@ -305,6 +288,23 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
                 teste.AtribuirDisciplina(disciplina);
         }
 
+        private void ConfigurarParametrosDisciplina(Disciplina disciplina, SqlCommand comando)
+        {
+            comando.Parameters.AddWithValue("ID", disciplina.Id);
+            comando.Parameters.AddWithValue("NOME", disciplina.Nome);
+        }
+
+        private Disciplina ConverterParaDisciplina(SqlDataReader leitor)
+        {
+            Disciplina disciplina = new Disciplina()
+            {
+                Id = Convert.ToInt32(leitor["ID"]),
+                Nome = Convert.ToString(leitor["NOME"]),
+            };
+
+            return disciplina;
+        }
+
         private Materia ConverterParaMateria(SqlDataReader leitor)
         {
             Materia materia = new Materia()
@@ -340,14 +340,6 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
                 DataGeracao = Convert.ToDateTime(leitor["DATA_GERACAO"]),
                 ProvaRecuperacao = Convert.ToBoolean(leitor["PROVA_RECUPERACAO"]),
             };
-
-            Materia materiaSelecionada = ConverterParaMateria(leitor);
-
-            teste.AtribuirMateria(materiaSelecionada);
-
-            Disciplina disciplinaSelecionada = ConverterParaDisciplina(leitor);
-
-            teste.AtribuirDisciplina(disciplinaSelecionada);
 
             return teste;
         }
