@@ -1,5 +1,6 @@
 ﻿using GeradorDeTestes.WinApp.Compartilhado;
-using GeradorTestes.WinApp.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.WinApp.ModuloTeste
 {

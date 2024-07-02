@@ -1,5 +1,6 @@
 ﻿using GeradorDeTestes.Infra.Arquivos.Compartilhado;
-using GeradorTestes.Infra.Arquivos.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.Infra.Arquivos.ModuloTeste
 {

@@ -1,4 +1,5 @@
-﻿using GeradorTestes.WinApp.ModuloQuestao;
+﻿using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.WinApp.ModuloTeste
 {

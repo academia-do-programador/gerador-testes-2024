@@ -1,4 +1,6 @@
-﻿namespace GeradorTestes.WinApp.ModuloDisciplina
+﻿using GeradorTestes.Dominio.ModuloDisciplina;
+
+namespace GeradorTestes.WinApp.ModuloDisciplina
 {
     public partial class TelaDisciplinaForm : Form
     {

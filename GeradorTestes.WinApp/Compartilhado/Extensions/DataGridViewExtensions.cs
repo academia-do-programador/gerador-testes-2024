@@ -1,4 +1,4 @@
-﻿namespace GeradorDeTestes.WinApp.Compartilhado
+﻿namespace GeradorDeTestes.WinApp.Compartilhado.Extensions
 {
     public static class DataGridViewExtensions
     {

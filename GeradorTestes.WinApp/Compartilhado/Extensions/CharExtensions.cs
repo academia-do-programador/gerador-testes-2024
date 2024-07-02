@@ -1,4 +1,4 @@
-﻿namespace GeradorTestes.WinApp.Compartilhado.Extensoes
+﻿namespace GeradorTestes.WinApp.Compartilhado.Extensions
 {
     public static class CharExtensions
     {

@@ -1,4 +1,5 @@
-﻿using GeradorDeTestes.WinApp.Compartilhado;
+﻿using GeradorDeTestes.WinApp.Compartilhado.Extensions;
+using GeradorTestes.Dominio.ModuloMateria;
 
 namespace GeradorTestes.WinApp.ModuloMateria
 {

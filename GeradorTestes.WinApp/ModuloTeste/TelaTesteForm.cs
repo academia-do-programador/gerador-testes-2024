@@ -1,6 +1,7 @@
-﻿using GeradorTestes.WinApp.ModuloDisciplina;
-using GeradorTestes.WinApp.ModuloMateria;
-using GeradorTestes.WinApp.ModuloQuestao;
+﻿using GeradorTestes.Dominio.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloMateria;
+using GeradorTestes.Dominio.ModuloQuestao;
+using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.WinApp.ModuloTeste
 {

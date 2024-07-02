@@ -35,10 +35,10 @@ namespace GeradorTestes.WinApp
 
             contexto = new ContextoDados(true);
 
-            repositorioDisciplina = new RepositorioDisciplinaEmArquivo();
-            repositorioMateria = new RepositorioMateriaEmArquivo();
-            repositorioQuestao = new RepositorioQuestaoEmArquivo();
-            repositorioTeste = new RepositorioTesteEmArquivo();
+            repositorioDisciplina = new RepositorioDisciplinaEmArquivo(contexto);
+            repositorioMateria = new RepositorioMateriaEmArquivo(contexto);
+            repositorioQuestao = new RepositorioQuestaoEmArquivo(contexto);
+            repositorioTeste = new RepositorioTesteEmArquivo(contexto);
         }
 
         public void AtualizarRodape(string texto)
