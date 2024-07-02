@@ -106,6 +106,17 @@ namespace GeradorTestes.WinApp.ModuloMateria
                 return;
             }
 
+            if (materiaSelecionada.Questoes.Count > 0)
+            {
+                MessageBox.Show(
+                    "Você precisa remover as questões relacionadas antes de excluir a matéria!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             DialogResult resposta = MessageBox.Show(
                 $"Você deseja realmente excluir o registro \"{materiaSelecionada.Nome}\" ",
                 "Confirmar Exclusão",
