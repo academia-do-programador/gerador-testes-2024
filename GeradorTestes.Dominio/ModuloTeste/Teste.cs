@@ -124,7 +124,7 @@ namespace GeradorTestes.Dominio.ModuloTeste
             return erros;
         }
 
-        private void RemoverQuestoesAtuais()
+        public void RemoverQuestoesAtuais()
         {
             foreach (Questao q in Questoes)
                 RemoverQuestao(q);

@@ -167,7 +167,9 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
         public bool Excluir(int id)
         {
-            DesvincularQuestoes(id);
+            Teste testeSelecionado = SelecionarPorId(id);
+
+            DesvincularQuestoes(testeSelecionado);
 
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 
@@ -260,20 +262,22 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
             conexaoComBanco.Close();
         }
 
-        private void DesvincularQuestoes(int id)
+        private void DesvincularQuestoes(Teste teste)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 
             SqlCommand comandoExclusao =
                 new SqlCommand(sqlRemoverQuestoesTeste, conexaoComBanco);
 
-            comandoExclusao.Parameters.AddWithValue("TESTE_ID", id);
+            comandoExclusao.Parameters.AddWithValue("TESTE_ID", teste.Id);
 
             conexaoComBanco.Open();
 
             comandoExclusao.ExecuteNonQuery();
 
             conexaoComBanco.Close();
+
+            teste.RemoverQuestoesAtuais();
         }
 
         private void CarregarQuestoes(Teste teste)
