@@ -38,12 +38,17 @@ namespace GeradorTestes.Dominio.ModuloTeste
 
         public List<Questao> SortearQuestoes()
         {
+            RemoverQuestoesAtuais();
+
             List<Questao> questoesSorteadas = new List<Questao>(QuantidadeQuestoes);
 
             if (ProvaRecuperacao)
                 questoesSorteadas = Disciplina.ObterQuestoesAleatorias(QuantidadeQuestoes);
             else
                 questoesSorteadas = Materia.ObterQuestoesAleatorias(QuantidadeQuestoes);
+
+            foreach (Questao q in questoesSorteadas)
+                AdicionarQuestao(q);
 
             return questoesSorteadas;
         }
@@ -94,6 +99,12 @@ namespace GeradorTestes.Dominio.ModuloTeste
             Questoes.Remove(questao);
         }
 
+        public void RemoverQuestoesAtuais()
+        {
+            for (int i = 0; i < Questoes.Count; i++)
+                RemoverQuestao(Questoes[i]);
+        }
+
         public override List<string> Validar()
         {
             List<string> erros = new List<string>();
@@ -124,12 +135,6 @@ namespace GeradorTestes.Dominio.ModuloTeste
             return erros;
         }
 
-        public void RemoverQuestoesAtuais()
-        {
-            for (int i = 0; i < Questoes.Count; i++)
-                RemoverQuestao(Questoes[i]);
-        }
-
         public override void AtualizarRegistro(EntidadeBase novoRegistro)
         {
             Teste testeEditado = (Teste)novoRegistro;
@@ -139,6 +144,16 @@ namespace GeradorTestes.Dominio.ModuloTeste
             Materia = testeEditado.Materia;
             Questoes = Questoes;
             ProvaRecuperacao = testeEditado.ProvaRecuperacao;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Teste teste &&
+                   Id == teste.Id &&
+                   Titulo == teste.Titulo &&
+                   DataGeracao == teste.DataGeracao &&
+                   ProvaRecuperacao == teste.ProvaRecuperacao &&
+                   QuantidadeQuestoes == teste.QuantidadeQuestoes;
         }
     }
 }

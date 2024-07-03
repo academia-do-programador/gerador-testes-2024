@@ -170,6 +170,8 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
             teste.Id = Convert.ToInt32(id);
 
             conexaoComBanco.Close();
+
+            AdicionarQuestoes(teste);
         }
 
         public bool Excluir(int id)
@@ -247,16 +249,14 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
             return testes;
         }
 
-        public void AdicionarQuestoes(Teste teste, List<Questao> questoes)
+        private void AdicionarQuestoes(Teste teste)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 
             conexaoComBanco.Open();
 
-            foreach (Questao questao in questoes)
+            foreach (Questao questao in teste.Questoes)
             {
-                teste.AdicionarQuestao(questao);
-
                 SqlCommand comandoInsercao =
                     new SqlCommand(sqlAdicionarQuestaoTeste, conexaoComBanco);
 
@@ -323,11 +323,13 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
         private void ConfigurarParametrosTeste(Teste teste, SqlCommand comando)
         {
+            object materiaId = teste.Materia == null ? DBNull.Value : teste.Materia.Id;
+
             comando.Parameters.AddWithValue("ID", teste.Id);
             comando.Parameters.AddWithValue("TITULO", teste.Titulo);
             comando.Parameters.AddWithValue("DATA_GERACAO", teste.DataGeracao);
             comando.Parameters.AddWithValue("PROVA_RECUPERACAO", teste.ProvaRecuperacao);
-            comando.Parameters.AddWithValue("MATERIA_ID", teste.Materia.Id);
+            comando.Parameters.AddWithValue("MATERIA_ID", materiaId);
             comando.Parameters.AddWithValue("DISCIPLINA_ID", teste.Disciplina.Id);
             comando.Parameters.AddWithValue("QUANTIDADE_QUESTOES", teste.QuantidadeQuestoes);
         }
@@ -343,13 +345,16 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 QuantidadeQuestoes = Convert.ToInt32(leitor["QUANTIDADE_QUESTOES"]),
             };
 
-            Materia materiaSelecionada = ConverterParaMateria(leitor);
-
-            teste.AtribuirMateria(materiaSelecionada);
-
             Disciplina disciplinaSelecionada = ConverterParaDisciplina(leitor);
 
             teste.AtribuirDisciplina(disciplinaSelecionada);
+
+            if (!teste.ProvaRecuperacao)
+            {
+                Materia materiaSelecionada = ConverterParaMateria(leitor);
+
+                teste.AtribuirMateria(materiaSelecionada);
+            }
 
             return teste;
         }

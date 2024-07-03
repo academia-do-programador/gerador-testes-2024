@@ -85,16 +85,15 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
                         [UTILIZADA_EM_TESTE]                
 	                FROM 
 		                [TBQUESTAO]
-
 		            WHERE
-                        [MATERIA_ID] = @MATERIA_ID";
+                        [MATERIA_ID] = @MATERIA_ID AND [UTILIZADA_EM_TESTE] = 0";
 
         private const string sqlSelecionarTestesMateria =
             @"SELECT 
 		        [ID],
                 [TITULO],
                 [DATA_GERACAO],
-                [PROVA_RECUPERACAO],
+                [PROVA_RECUPERACAO]
 	        FROM 
 		        [TBTESTE]
 		    WHERE

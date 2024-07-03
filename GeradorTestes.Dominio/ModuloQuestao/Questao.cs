@@ -84,5 +84,13 @@ namespace GeradorTestes.Dominio.ModuloQuestao
         {
             return Enunciado;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Questao questao &&
+                   Id == questao.Id &&
+                   Enunciado == questao.Enunciado &&
+                   UtilizadaEmTeste == questao.UtilizadaEmTeste;
+        }
     }
 }

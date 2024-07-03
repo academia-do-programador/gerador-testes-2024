@@ -47,7 +47,16 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
         private void btnGravar_Click(object sender, EventArgs e)
         {
-            teste = ObterTeste();
+            if (teste == null)
+            {
+                TelaPrincipalForm
+                    .Instancia
+                    .AtualizarRodape("Você precisa sortear as questões antes do teste de finalizar o cadastro!");
+
+                DialogResult = DialogResult.None;
+
+                return;
+            }
 
             List<string> erros = teste.Validar();
 
@@ -74,7 +83,9 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
             int quantidadeQuestoes = Convert.ToInt32(txtQtdQuestoes.Value);
 
-            List<Questao> questoesSelecionadas = ObterTeste().SortearQuestoes();
+            teste = ObterTeste();
+
+            List<Questao> questoesSelecionadas = teste.SortearQuestoes();
 
             listQuestoes.Items.Clear();
 

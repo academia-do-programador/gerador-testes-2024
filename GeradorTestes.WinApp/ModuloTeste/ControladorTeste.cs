@@ -44,8 +44,6 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
             repositorioTeste.Cadastrar(novoRegistro);
 
-            repositorioTeste.AdicionarQuestoes(novoRegistro, telaTeste.QuestoesSorteadas);
-
             CarregarRegistros();
 
             TelaPrincipalForm.Instancia.AtualizarRodape($"O registro \"{novoRegistro.Titulo}\" foi criado com sucesso!");
@@ -123,8 +121,6 @@ namespace GeradorTestes.WinApp.ModuloTeste
             Teste registroDuplicado = telaTeste.Teste;
 
             repositorioTeste.Cadastrar(registroDuplicado);
-
-            repositorioTeste.AdicionarQuestoes(registroDuplicado, telaTeste.QuestoesSorteadas);
 
             CarregarRegistros();
 
