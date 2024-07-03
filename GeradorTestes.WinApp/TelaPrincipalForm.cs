@@ -4,10 +4,13 @@ using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloQuestao;
 using GeradorTestes.Dominio.ModuloTeste;
-using GeradorTestes.Infra.Sql.ModuloDisciplina;
-using GeradorTestes.Infra.Sql.ModuloMateria;
-using GeradorTestes.Infra.Sql.ModuloQuestao;
-using GeradorTestes.Infra.Sql.ModuloTeste;
+
+using GeradorTestes.Infra.Orm.Compartilhado;
+using GeradorTestes.Infra.Orm.ModuloDisciplina;
+using GeradorTestes.Infra.Orm.ModuloMateria;
+using GeradorTestes.Infra.Orm.ModuloQuestao;
+using GeradorTestes.Infra.Orm.ModuloTeste;
+
 using GeradorTestes.WinApp.ModuloDisciplina;
 using GeradorTestes.WinApp.ModuloMateria;
 using GeradorTestes.WinApp.ModuloQuestao;
@@ -31,10 +34,13 @@ namespace GeradorTestes.WinApp
             InitializeComponent();
             Instancia = this;
 
-            repositorioDisciplina = new RepositorioDisciplinaEmSql();
-            repositorioMateria = new RepositorioMateriaEmSql();
-            repositorioQuestao = new RepositorioQuestaoEmSql();
-            repositorioTeste = new RepositorioTesteEmSql();
+            GeradorTestesDbContext dbContext = new GeradorTestesDbContext();
+
+            repositorioDisciplina = new RepositorioDisciplinaEmOrm(dbContext);
+            repositorioMateria = new RepositorioMateriaEmOrm(dbContext);
+
+            repositorioQuestao = new RepositorioQuestaoEmOrm(dbContext);
+            repositorioTeste = new RepositorioTesteEmOrm(dbContext);
         }
 
         public void AtualizarRodape(string texto)

@@ -45,6 +45,8 @@ namespace GeradorTestes.Dominio.ModuloTeste
             else
                 questoesSorteadas = Materia.ObterQuestoesAleatorias(QuantidadeQuestoes);
 
+            Questoes = questoesSorteadas;
+
             return questoesSorteadas;
         }
 

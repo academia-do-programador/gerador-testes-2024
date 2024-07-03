@@ -13,17 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infraestrutura", "3. Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeradorTestes.Dominio", "GeradorTestes.Dominio\GeradorTestes.Dominio.csproj", "{5C29DFD6-64CD-4A16-8B3A-85C78942CE03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeradorTestes.Infra.Arquivo", "GeradorTestes.Infra.Arquivo\GeradorTestes.Infra.Arquivo.csproj", "{CCA7DA28-6800-4177-A76E-A65066E60C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeradorTestes.Infra.Arquivo", "GeradorTestes.Infra.Arquivo\GeradorTestes.Infra.Arquivo.csproj", "{CCA7DA28-6800-4177-A76E-A65066E60C8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.1. Memória", "3.1. Memória", "{47EA4E17-61BE-4C0B-BCA0-E13E181D0C9B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2. Arquivos", "3.2. Arquivos", "{FA78F71E-98AD-467C-B4BE-79CD2733B553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeradorTestes.Infra.Memoria", "GeradorTestes.Infra.Memoria\GeradorTestes.Infra.Memoria.csproj", "{4825CA81-A802-4D85-8822-A19EF249DB37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeradorTestes.Infra.Memoria", "GeradorTestes.Infra.Memoria\GeradorTestes.Infra.Memoria.csproj", "{4825CA81-A802-4D85-8822-A19EF249DB37}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.3. Sql", "3.3. Sql", "{514B6C0F-662D-412F-9797-BEAA30CAED14}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.3 Sql", "3.3 Sql", "{514B6C0F-662D-412F-9797-BEAA30CAED14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeradorTestes.Infra.Sql", "GeradorTestes.Infra.Sql\GeradorTestes.Infra.Sql.csproj", "{87951D39-6527-48A9-B20F-D76A69A37E49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeradorTestes.Infra.Sql", "GeradorTestes.Infra.Sql\GeradorTestes.Infra.Sql.csproj", "{87951D39-6527-48A9-B20F-D76A69A37E49}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeradorTestes.ConsoleApp", "GeradorTestes.ConsoleApp\GeradorTestes.ConsoleApp.csproj", "{51F9AFC7-37E3-4359-AC7B-42CDE7B8575E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.4 Orm", "3.4 Orm", "{AFA299E9-28A7-42C2-BF4F-C381483A114E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeradorTestes.Infra.Orm", "GeradorTestes.Infra.Orm\GeradorTestes.Infra.Orm.csproj", "{20F27423-FB80-46A0-8A9A-40DBADA4DE40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +57,14 @@ Global
 		{87951D39-6527-48A9-B20F-D76A69A37E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87951D39-6527-48A9-B20F-D76A69A37E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87951D39-6527-48A9-B20F-D76A69A37E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F9AFC7-37E3-4359-AC7B-42CDE7B8575E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F9AFC7-37E3-4359-AC7B-42CDE7B8575E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F9AFC7-37E3-4359-AC7B-42CDE7B8575E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F9AFC7-37E3-4359-AC7B-42CDE7B8575E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F27423-FB80-46A0-8A9A-40DBADA4DE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F27423-FB80-46A0-8A9A-40DBADA4DE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F27423-FB80-46A0-8A9A-40DBADA4DE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F27423-FB80-46A0-8A9A-40DBADA4DE40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +78,9 @@ Global
 		{4825CA81-A802-4D85-8822-A19EF249DB37} = {47EA4E17-61BE-4C0B-BCA0-E13E181D0C9B}
 		{514B6C0F-662D-412F-9797-BEAA30CAED14} = {0628682E-1016-49F9-865B-F16EB94A01D7}
 		{87951D39-6527-48A9-B20F-D76A69A37E49} = {514B6C0F-662D-412F-9797-BEAA30CAED14}
+		{51F9AFC7-37E3-4359-AC7B-42CDE7B8575E} = {905EF3B6-E99B-4AF9-993F-BA29D480C989}
+		{AFA299E9-28A7-42C2-BF4F-C381483A114E} = {0628682E-1016-49F9-865B-F16EB94A01D7}
+		{20F27423-FB80-46A0-8A9A-40DBADA4DE40} = {AFA299E9-28A7-42C2-BF4F-C381483A114E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0C19A003-EE73-4DBB-8D91-42AEB61792A0}

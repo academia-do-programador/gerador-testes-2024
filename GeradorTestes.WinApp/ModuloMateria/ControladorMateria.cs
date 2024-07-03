@@ -79,8 +79,8 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
             Materia registroEditado = telaMateria.Materia;
 
-            materiaSelecionada.RemoverDisciplina();
-            registroEditado.AtribuirDisciplina();
+            //materiaSelecionada.RemoverDisciplina();
+            //registroEditado.AtribuirDisciplina();
 
             repositorioMateria.Editar(idSelecionado, registroEditado);
 

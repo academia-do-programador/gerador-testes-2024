@@ -11,7 +11,7 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
 
         public RepositorioQuestaoEmSql()
         {
-            enderecoBanco = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=GeradorTestesDb;Integrated Security=True;Pooling=False";
+            enderecoBanco = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=GeradorTestesSql;Integrated Security=True;Pooling=False";
         }
 
         #region SQL queries
