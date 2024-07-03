@@ -24,7 +24,7 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
                 VALUES
                 (
                     @NOME
-                )";
+                );SELECT SCOPE_IDENTITY();";
 
         private const string sqlEditar =
             @"UPDATE [TBDISCIPLINA]	
@@ -78,19 +78,18 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             @"SELECT 
 		        [ID],
                 [ENUNCIADO],
-                [UTILIZA_DA_EM_TESTE]                
+                [UTILIZADA_EM_TESTE]                
 	        FROM 
 		        [TBQUESTAO]
-
 		    WHERE
-                [MATERIA_ID] = @MATERIA_ID AND [UTILIZA_DA_EM_TESTE] = 0";
+                [MATERIA_ID] = @MATERIA_ID AND [UTILIZADA_EM_TESTE] = 0";
 
         private const string sqlSelecionarTestesDisciplina =
             @"SELECT 
 		        [ID],
                 [TITULO],
                 [DATA_GERACAO],
-                [PROVA_RECUPERACAO],
+                [PROVA_RECUPERACAO]
 	        FROM 
 		        [TBTESTE]
 		    WHERE
@@ -177,10 +176,7 @@ namespace GeradorTestes.Infra.Sql.ModuloDisciplina
             conexaoComBanco.Close();
 
             if (disciplina != null)
-            {
                 CarregarMaterias(disciplina);
-                CarregarTestes(disciplina);
-            }
 
             return disciplina;
         }

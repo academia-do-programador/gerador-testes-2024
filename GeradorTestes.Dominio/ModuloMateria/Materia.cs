@@ -26,9 +26,12 @@ namespace GeradorTestes.Dominio.ModuloMateria
             Disciplina = disciplina;
         }
 
-        public bool AtribuirDisciplina()
+        public bool AtribuirDisciplina(Disciplina disciplina)
         {
-            bool conseguiuAdicionar = Disciplina.AdicionarMateria(this);
+            bool conseguiuAdicionar = disciplina.AdicionarMateria(this);
+
+            if (conseguiuAdicionar)
+                Disciplina = disciplina;
 
             return conseguiuAdicionar;
         }
@@ -50,7 +53,7 @@ namespace GeradorTestes.Dominio.ModuloMateria
             if (Questoes.Contains(questao))
                 return;
 
-            Questoes.Add(questao);  
+            Questoes.Add(questao);
         }
 
         public void RemoverQuestao(Questao questao)

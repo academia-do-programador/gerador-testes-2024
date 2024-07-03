@@ -24,33 +24,24 @@ namespace GeradorTestes.Dominio.ModuloQuestao
             UtilizadaEmTeste = false;
         }
 
-        public Questao(string enunciado, Materia materia, List<Alternativa> alternativas) : this()
+        public Questao(string enunciado, Materia materia) : this()
         {
             Enunciado = enunciado;
             Materia = materia;
-            Alternativas = alternativas;
         }
 
-        public bool AtribuirMateria(Materia materia)
+        public void AtribuirMateria(Materia materia)
         {
-            if (Materia.Questoes.Contains(this))
-                return false;
-
             Materia = materia;
 
             Materia.AdicionarQuestao(this);
-
-            return true;
         }
 
         public void AdicionarAlternativa(Alternativa alternativa)
         {
-            if (Alternativas.Contains(alternativa))
-                return;
+            alternativa.AtribuirQuestao(this);
 
             Alternativas.Add(alternativa);
-
-            alternativa.AtribuirQuestao(this);
 
             return;
         }
@@ -65,17 +56,17 @@ namespace GeradorTestes.Dominio.ModuloQuestao
             if (Enunciado.Length < 2)
                 erros.Add($"O nome do enunciado deve ter mais de 2 letras!");
 
-            if (Alternativas.Count(x => x.Correta) == 0)
-                erros.Add("Nenhuma alternativa correta foi informada");
+            //if (Alternativas.Count(x => x.Correta) == 0)
+            //    erros.Add("Nenhuma alternativa correta foi informada");
 
-            if (Alternativas.Count(x => x.Correta) > 1)
-                erros.Add("Apenas uma alternativa pode ser correta");
+            //if (Alternativas.Count(x => x.Correta) > 1)
+            //    erros.Add("Apenas uma alternativa pode ser correta");
 
-            if (Alternativas.Count < 3)
-                erros.Add("No mínimo 3 alternativas precisam ser informadas");
+            //if (Alternativas.Count < 3)
+            //    erros.Add("No mínimo 3 alternativas precisam ser informadas");
 
-            if (Alternativas.Count > 5)
-                erros.Add("No máximo 5 alternativas devem ser informadas");
+            //if (Alternativas.Count > 5)
+            //    erros.Add("No máximo 5 alternativas devem ser informadas");
 
             return erros;
         }

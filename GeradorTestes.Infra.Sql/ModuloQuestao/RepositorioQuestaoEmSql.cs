@@ -27,7 +27,7 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
                 @ENUNCIADO,
                 @UTILIZADA_EM_TESTE,
                 @MATERIA_ID
-            );";
+            );SELECT SCOPE_IDENTITY();";
 
         private string sqlEditar =
             @"UPDATE [TBQUESTAO]
@@ -332,10 +332,11 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
                 Id = Convert.ToInt32(leitor["MATERIA_ID"]),
                 Nome = Convert.ToString(leitor["MATERIA_NOME"]),
                 Serie = (SerieMateriaEnum)leitor["MATERIA_SERIE"],
-                Disciplina = ConverterParaDisciplina(leitor)
             };
 
-            materia.AtribuirDisciplina();
+            Disciplina disciplina = ConverterParaDisciplina(leitor);
+
+            materia.AtribuirDisciplina(disciplina);
 
             return materia;
         }

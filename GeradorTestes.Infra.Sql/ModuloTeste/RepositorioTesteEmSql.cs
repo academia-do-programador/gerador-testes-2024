@@ -34,7 +34,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 @MATERIA_ID,
                 @DISCIPLINA_ID,
                 @QUANTIDADE_QUESTOES
-            );";
+            );SELECT SCOPE_IDENTITY();";
 
         private const string sqlExcluir =
            @"DELETE FROM [TBTESTE]
@@ -346,10 +346,12 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 Id = Convert.ToInt32(leitor["MATERIA_ID"]),
                 Nome = Convert.ToString(leitor["MATERIA_NOME"]),
                 Serie = (SerieMateriaEnum)leitor["MATERIA_SERIE"],
-                Disciplina = ConverterParaDisciplina(leitor)
+
             };
 
-            materia.AtribuirDisciplina();
+            Disciplina disciplina = ConverterParaDisciplina(leitor);
+
+            materia.AtribuirDisciplina(disciplina);
 
             return materia;
         }
