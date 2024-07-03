@@ -180,10 +180,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             conexaoComBanco.Close();
 
             if (materia != null)
-            {
                 CarregarQuestoes(materia);
-                CarregarTestes(materia);
-            }
 
             return materia;
         }
@@ -239,32 +236,6 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 
             foreach (Questao questao in questoes)
                 materia.AdicionarQuestao(questao);
-        }
-
-        private void CarregarTestes(Materia materia)
-        {
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-
-            SqlCommand comandoSelecao =
-                new SqlCommand(sqlSelecionarTestesMateria, conexaoComBanco);
-
-            comandoSelecao.Parameters.AddWithValue("MATERIA_ID", materia.Id);
-
-            conexaoComBanco.Open();
-
-            SqlDataReader leitorTeste = comandoSelecao.ExecuteReader();
-
-            List<Teste> testes = new List<Teste>();
-
-            while (leitorTeste.Read())
-            {
-                Teste questao = ConverterParaTeste(leitorTeste);
-
-                testes.Add(questao);
-            }
-
-            foreach (Teste teste in testes)
-                teste.AtribuirMateria(materia);
         }
 
         private void ConfigurarParametrosMateria(Materia materia, SqlCommand comando)
