@@ -26,9 +26,22 @@ namespace GeradorTestes.Dominio.ModuloMateria
             Disciplina = disciplina;
         }
 
-        public bool AtribuirDisciplina()
+        public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
         {
-            bool conseguiuAdicionar = Disciplina.AdicionarMateria(this);
+            Random random = new Random();
+
+            return Questoes
+                .OrderBy(q => random.Next())
+                .Take(quantidadeQuestoes)
+                .ToList();
+        }
+
+        public bool AtribuirDisciplina(Disciplina disciplina)
+        {
+            bool conseguiuAdicionar = disciplina.AdicionarMateria(this);
+
+            if (conseguiuAdicionar)
+                Disciplina = disciplina;
 
             return conseguiuAdicionar;
         }
@@ -50,7 +63,7 @@ namespace GeradorTestes.Dominio.ModuloMateria
             if (Questoes.Contains(questao))
                 return;
 
-            Questoes.Add(questao);  
+            Questoes.Add(questao);
         }
 
         public void RemoverQuestao(Questao questao)
@@ -59,16 +72,6 @@ namespace GeradorTestes.Dominio.ModuloMateria
                 return;
 
             Questoes.Remove(questao);
-        }
-
-        public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
-        {
-            Random random = new Random();
-
-            return Questoes
-                .OrderBy(q => random.Next())
-                .Take(quantidadeQuestoes)
-                .ToList();
         }
 
         public override void AtualizarRegistro(EntidadeBase novoRegistro)
@@ -96,6 +99,14 @@ namespace GeradorTestes.Dominio.ModuloMateria
         public override string ToString()
         {
             return $"{Nome}";
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Materia materia &&
+                   Id == materia.Id &&
+                   Nome == materia.Nome &&
+                   Serie == materia.Serie;
         }
     }
 }

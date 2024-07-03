@@ -41,7 +41,7 @@ namespace GeradorTestes.WinApp.ModuloTeste
             {
                 string materia = teste.ProvaRecuperacao ? "Prova de Recuperação" : teste.Materia.Nome;
 
-                grid.Rows.Add(teste.Id, teste.Titulo, teste.Disciplina, materia, teste.Questoes.Count);
+                grid.Rows.Add(teste.Id, teste.Titulo, teste.Disciplina, materia, teste.QuantidadeQuestoes);
             }
         }
     }

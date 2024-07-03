@@ -27,7 +27,7 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
                 @ENUNCIADO,
                 @UTILIZADA_EM_TESTE,
                 @MATERIA_ID
-            );";
+            );SELECT SCOPE_IDENTITY();";
 
         private string sqlEditar =
             @"UPDATE [TBQUESTAO]
@@ -132,6 +132,8 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
             questao.Id = Convert.ToInt32(id);
 
             conexaoComBanco.Close();
+
+            AdicionarAlternativas(questao);
         }
 
         public bool Editar(int id, Questao questao)
@@ -153,12 +155,16 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
             if (numeroRegistrosAfetados < 1)
                 return false;
 
+            AtualizarAlternativas(questao);
+
             return true;
         }
 
         public bool Excluir(int id)
         {
-            ExcluirAlternativas(id);
+            Questao questao = SelecionarPorId(id);
+
+            ExcluirAlternativas(questao);
 
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 
@@ -231,16 +237,14 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
             return questoes;
         }
 
-        public void AdicionarAlternativas(Questao questao, List<Alternativa> alternativasSelecionadas)
+        private void AdicionarAlternativas(Questao questao)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 
             conexaoComBanco.Open();
 
-            foreach (Alternativa alternativa in alternativasSelecionadas)
+            foreach (Alternativa alternativa in questao.Alternativas)
             {
-                questao.AdicionarAlternativa(alternativa);
-
                 SqlCommand comandoInsercao =
                     new SqlCommand(sqlInserirAlternativa, conexaoComBanco);
 
@@ -252,11 +256,29 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
             conexaoComBanco.Close();
         }
 
-        public void AtualizarAlternativas(Questao questao, List<Alternativa> alternativasSelecionadas)
+        private void AtualizarAlternativas(Questao questao)
         {
-            ExcluirAlternativas(questao.Id);
+            ExcluirAlternativas(questao);
 
-            AdicionarAlternativas(questao, alternativasSelecionadas);
+            AdicionarAlternativas(questao);
+        }
+
+        private void ExcluirAlternativas(Questao questao)
+        {
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoExclusao =
+                new SqlCommand(sqlExcluirAlternativas, conexaoComBanco);
+
+            comandoExclusao.Parameters.AddWithValue("QUESTAO_ID", questao.Id);
+
+            conexaoComBanco.Open();
+
+            comandoExclusao.ExecuteNonQuery();
+
+            conexaoComBanco.Close();
+
+            questao.RemoverAlternativas();
         }
 
         private void CarregarAlternativas(Questao questao)
@@ -283,22 +305,6 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
 
             foreach (Alternativa alternativa in alternativas)
                 questao.AdicionarAlternativa(alternativa);
-        }
-
-        private void ExcluirAlternativas(int id)
-        {
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-
-            SqlCommand comandoExclusao =
-                new SqlCommand(sqlExcluirAlternativas, conexaoComBanco);
-
-            comandoExclusao.Parameters.AddWithValue("QUESTAO_ID", id);
-
-            conexaoComBanco.Open();
-
-            comandoExclusao.ExecuteNonQuery();
-
-            conexaoComBanco.Close();
         }
 
         private void ConfigurarParametrosQuestao(Questao questao, SqlCommand comando)
@@ -332,10 +338,11 @@ namespace GeradorTestes.Infra.Sql.ModuloQuestao
                 Id = Convert.ToInt32(leitor["MATERIA_ID"]),
                 Nome = Convert.ToString(leitor["MATERIA_NOME"]),
                 Serie = (SerieMateriaEnum)leitor["MATERIA_SERIE"],
-                Disciplina = ConverterParaDisciplina(leitor)
             };
 
-            materia.AtribuirDisciplina();
+            Disciplina disciplina = ConverterParaDisciplina(leitor);
+
+            materia.AtribuirDisciplina(disciplina);
 
             return materia;
         }

@@ -39,7 +39,7 @@ namespace GeradorTestes.WinApp.ModuloMateria
 
             Materia novoRegistro = telaMateria.Materia;
 
-            novoRegistro.AtribuirDisciplina();
+            novoRegistro.AtribuirDisciplina(novoRegistro.Disciplina);
 
             repositorioMateria.Cadastrar(novoRegistro);
 
@@ -78,9 +78,6 @@ namespace GeradorTestes.WinApp.ModuloMateria
                 return;
 
             Materia registroEditado = telaMateria.Materia;
-
-            //materiaSelecionada.RemoverDisciplina();
-            //registroEditado.AtribuirDisciplina();
 
             repositorioMateria.Editar(idSelecionado, registroEditado);
 

@@ -34,7 +34,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 @MATERIA_ID,
                 @DISCIPLINA_ID,
                 @QUANTIDADE_QUESTOES
-            );";
+            );SELECT SCOPE_IDENTITY();";
 
         private const string sqlExcluir =
            @"DELETE FROM [TBTESTE]
@@ -53,6 +53,13 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 @QUESTAO_ID
 
             );";
+
+        private const string sqlMarcarQuestaoUtilizada =
+         @"UPDATE [TBQUESTAO]
+            SET
+                [UTILIZADA_EM_TESTE] = @UTILIZADA_EM_TESTE
+            WHERE
+                [ID] = @QUESTAO_ID;";
 
         private const string sqlRemoverQuestoesTeste =
           @"DELETE FROM [TBTESTE_TBQUESTAO]
@@ -115,7 +122,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
 	            M.ID            [MATERIA_ID],
 	            M.NOME          [MATERIA_NOME],
-                M.SERIE         [MATERIA_SERIE],
+                M.SERIE         [MATERIA_SERIE]
             FROM 
 	            TBQUESTAO AS Q 
 
@@ -163,6 +170,8 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
             teste.Id = Convert.ToInt32(id);
 
             conexaoComBanco.Close();
+
+            AdicionarQuestoes(teste);
         }
 
         public bool Excluir(int id)
@@ -240,16 +249,14 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
             return testes;
         }
 
-        public void AdicionarQuestoes(Teste teste, List<Questao> questoes)
+        private void AdicionarQuestoes(Teste teste)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
 
             conexaoComBanco.Open();
 
-            foreach (Questao questao in questoes)
+            foreach (Questao questao in teste.Questoes)
             {
-                teste.AdicionarQuestao(questao);
-
                 SqlCommand comandoInsercao =
                     new SqlCommand(sqlAdicionarQuestaoTeste, conexaoComBanco);
 
@@ -257,6 +264,14 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 comandoInsercao.Parameters.AddWithValue("QUESTAO_ID", questao.Id);
 
                 comandoInsercao.ExecuteNonQuery();
+
+                SqlCommand comandoAtualizacao =
+                    new SqlCommand(sqlMarcarQuestaoUtilizada, conexaoComBanco);
+
+                comandoAtualizacao.Parameters.AddWithValue("UTILIZADA_EM_TESTE", questao.UtilizadaEmTeste);
+                comandoAtualizacao.Parameters.AddWithValue("QUESTAO_ID", questao.Id);
+
+                comandoAtualizacao.ExecuteNonQuery();
             }
 
             conexaoComBanco.Close();
@@ -308,11 +323,13 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
         private void ConfigurarParametrosTeste(Teste teste, SqlCommand comando)
         {
+            object materiaId = teste.Materia == null ? DBNull.Value : teste.Materia.Id;
+
             comando.Parameters.AddWithValue("ID", teste.Id);
             comando.Parameters.AddWithValue("TITULO", teste.Titulo);
             comando.Parameters.AddWithValue("DATA_GERACAO", teste.DataGeracao);
             comando.Parameters.AddWithValue("PROVA_RECUPERACAO", teste.ProvaRecuperacao);
-            comando.Parameters.AddWithValue("MATERIA_ID", teste.Materia.Id);
+            comando.Parameters.AddWithValue("MATERIA_ID", materiaId);
             comando.Parameters.AddWithValue("DISCIPLINA_ID", teste.Disciplina.Id);
             comando.Parameters.AddWithValue("QUANTIDADE_QUESTOES", teste.QuantidadeQuestoes);
         }
@@ -328,13 +345,16 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 QuantidadeQuestoes = Convert.ToInt32(leitor["QUANTIDADE_QUESTOES"]),
             };
 
-            Materia materiaSelecionada = ConverterParaMateria(leitor);
-
-            teste.AtribuirMateria(materiaSelecionada);
-
             Disciplina disciplinaSelecionada = ConverterParaDisciplina(leitor);
 
             teste.AtribuirDisciplina(disciplinaSelecionada);
+
+            if (!teste.ProvaRecuperacao)
+            {
+                Materia materiaSelecionada = ConverterParaMateria(leitor);
+
+                teste.AtribuirMateria(materiaSelecionada);
+            }
 
             return teste;
         }
@@ -346,10 +366,12 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 Id = Convert.ToInt32(leitor["MATERIA_ID"]),
                 Nome = Convert.ToString(leitor["MATERIA_NOME"]),
                 Serie = (SerieMateriaEnum)leitor["MATERIA_SERIE"],
-                Disciplina = ConverterParaDisciplina(leitor)
+
             };
 
-            materia.AtribuirDisciplina();
+            //Disciplina disciplina = ConverterParaDisciplina(leitor);
+
+            //materia.AtribuirDisciplina(disciplina);
 
             return materia;
         }

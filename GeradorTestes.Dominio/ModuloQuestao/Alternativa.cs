@@ -1,4 +1,5 @@
-﻿namespace GeradorTestes.Dominio.ModuloQuestao
+﻿
+namespace GeradorTestes.Dominio.ModuloQuestao
 {
     public class Alternativa
     {
@@ -25,6 +26,15 @@
         public override string ToString()
         {
             return $"({Letra}) -> {Resposta}";
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Alternativa alternativa &&
+                   Id == alternativa.Id &&
+                   Letra == alternativa.Letra &&
+                   Resposta == alternativa.Resposta &&
+                   Correta == alternativa.Correta;
         }
     }
 }

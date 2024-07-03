@@ -28,29 +28,23 @@ namespace GeradorTestes.Dominio.ModuloQuestao
         {
             Enunciado = enunciado;
             Materia = materia;
-            Alternativas = alternativas;
+
+            foreach (Alternativa a in alternativas)
+                AdicionarAlternativa(a);
         }
 
-        public bool AtribuirMateria(Materia materia)
+        public void AtribuirMateria(Materia materia)
         {
-            if (Materia.Questoes.Contains(this))
-                return false;
-
             Materia = materia;
 
             Materia.AdicionarQuestao(this);
-
-            return true;
         }
 
         public void AdicionarAlternativa(Alternativa alternativa)
         {
-            if (Alternativas.Contains(alternativa))
-                return;
+            alternativa.AtribuirQuestao(this);
 
             Alternativas.Add(alternativa);
-
-            alternativa.AtribuirQuestao(this);
 
             return;
         }
@@ -92,6 +86,19 @@ namespace GeradorTestes.Dominio.ModuloQuestao
         public override string ToString()
         {
             return Enunciado;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Questao questao &&
+                   Id == questao.Id &&
+                   Enunciado == questao.Enunciado &&
+                   UtilizadaEmTeste == questao.UtilizadaEmTeste;
+        }
+
+        public void RemoverAlternativas()
+        {
+            Alternativas.Clear();
         }
     }
 }

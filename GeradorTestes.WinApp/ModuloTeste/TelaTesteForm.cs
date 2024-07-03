@@ -33,9 +33,13 @@ namespace GeradorTestes.WinApp.ModuloTeste
             get => listQuestoes.Items.Cast<Questao>().ToList();
         }
 
-        public TelaTesteForm(List<Disciplina> disciplinasCadastradas)
+        private List<Materia> materiasCadastradas;
+
+        public TelaTesteForm(List<Disciplina> disciplinasCadastradas, List<Materia> materiasCadastradas)
         {
             InitializeComponent();
+
+            this.materiasCadastradas = materiasCadastradas;
 
             foreach (Disciplina disciplina in disciplinasCadastradas)
                 cmbDisciplinas.Items.Add(disciplina);
@@ -43,16 +47,16 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
         private void btnGravar_Click(object sender, EventArgs e)
         {
-            string titulo = txtTitulo.Text;
+            if (teste == null)
+            {
+                TelaPrincipalForm
+                    .Instancia
+                    .AtualizarRodape("Você precisa sortear as questões antes do teste de finalizar o cadastro!");
 
-            Disciplina disciplina = (Disciplina)cmbDisciplinas.SelectedItem;
-            Materia materia = (Materia)cmbMaterias.SelectedItem;
+                DialogResult = DialogResult.None;
 
-            bool provaRecuperacao = chkProvaRecuperacao.Checked;
-
-            int quantidadeQuestoes = (int)txtQtdQuestoes.Value;
-
-            teste = new Teste(titulo, disciplina, materia, provaRecuperacao, quantidadeQuestoes);
+                return;
+            }
 
             List<string> erros = teste.Validar();
 
@@ -67,6 +71,7 @@ namespace GeradorTestes.WinApp.ModuloTeste
             }
         }
 
+
         private void btnSortear_Click(object sender, EventArgs e)
         {
             if (cmbDisciplinas.SelectedItem == null ||
@@ -77,6 +82,8 @@ namespace GeradorTestes.WinApp.ModuloTeste
             }
 
             int quantidadeQuestoes = Convert.ToInt32(txtQtdQuestoes.Value);
+
+            teste = ObterTeste();
 
             List<Questao> questoesSelecionadas = teste.SortearQuestoes();
 
@@ -118,13 +125,35 @@ namespace GeradorTestes.WinApp.ModuloTeste
         private void CarregarMateriasDaDisciplina()
         {
             Disciplina disciplinaSelecionada = (Disciplina)cmbDisciplinas.SelectedItem;
+
             if (disciplinaSelecionada == null)
                 return;
+
+            foreach (Materia m in materiasCadastradas)
+            {
+                if (m.Disciplina.Id == disciplinaSelecionada.Id)
+                    disciplinaSelecionada.AdicionarMateria(m);
+            }
 
             cmbMaterias.Items.Clear();
 
             foreach (Materia m in disciplinaSelecionada.Materias)
                 cmbMaterias.Items.Add(m);
         }
+
+        private Teste ObterTeste()
+        {
+            string titulo = txtTitulo.Text;
+
+            Disciplina disciplina = (Disciplina)cmbDisciplinas.SelectedItem;
+            Materia materia = (Materia)cmbMaterias.SelectedItem;
+
+            bool provaRecuperacao = chkProvaRecuperacao.Checked;
+
+            int quantidadeQuestoes = (int)txtQtdQuestoes.Value;
+
+            return new Teste(titulo, disciplina, materia, provaRecuperacao, quantidadeQuestoes);
+        }
+
     }
 }

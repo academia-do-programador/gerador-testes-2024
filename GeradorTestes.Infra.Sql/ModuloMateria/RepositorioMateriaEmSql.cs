@@ -28,7 +28,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
                 @NOME,
                 @SERIE,
                 @DISCIPLINA_ID
-            );";
+            );SELECT SCOPE_IDENTITY();";
 
         private const string sqlEditar =
             @"UPDATE [TBMATERIA]
@@ -39,7 +39,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 		    WHERE
 			    [ID] = @ID";
 
-        private string sqlExcluir =>
+        private const string sqlExcluir =
             @"DELETE FROM [TBMATERIA]
 		        WHERE
 			        [ID] = @ID";
@@ -82,19 +82,18 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             @"SELECT 
 		                [ID],
                         [ENUNCIADO],
-                        [UTILIZA_DA_EM_TESTE]                
+                        [UTILIZADA_EM_TESTE]                
 	                FROM 
 		                [TBQUESTAO]
-
 		            WHERE
-                        [MATERIA_ID] = @MATERIA_ID";
+                        [MATERIA_ID] = @MATERIA_ID AND [UTILIZADA_EM_TESTE] = 0";
 
         private const string sqlSelecionarTestesMateria =
             @"SELECT 
 		        [ID],
                 [TITULO],
                 [DATA_GERACAO],
-                [PROVA_RECUPERACAO],
+                [PROVA_RECUPERACAO]
 	        FROM 
 		        [TBTESTE]
 		    WHERE
@@ -181,10 +180,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             conexaoComBanco.Close();
 
             if (materia != null)
-            {
                 CarregarQuestoes(materia);
-                CarregarTestes(materia);
-            }
 
             return materia;
         }
@@ -204,9 +200,11 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 
             while (leitorDisciplina.Read())
             {
-                Materia disciplina = ConverterParaMateria(leitorDisciplina);
+                Materia materia = ConverterParaMateria(leitorDisciplina);
 
-                materias.Add(disciplina);
+                CarregarQuestoes(materia);
+
+                materias.Add(materia);
             }
 
             conexaoComBanco.Close();
@@ -240,32 +238,6 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
                 materia.AdicionarQuestao(questao);
         }
 
-        private void CarregarTestes(Materia materia)
-        {
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-
-            SqlCommand comandoSelecao =
-                new SqlCommand(sqlSelecionarTestesMateria, conexaoComBanco);
-
-            comandoSelecao.Parameters.AddWithValue("MATERIA_ID", materia.Id);
-
-            conexaoComBanco.Open();
-
-            SqlDataReader leitorTeste = comandoSelecao.ExecuteReader();
-
-            List<Teste> testes = new List<Teste>();
-
-            while (leitorTeste.Read())
-            {
-                Teste questao = ConverterParaTeste(leitorTeste);
-
-                testes.Add(questao);
-            }
-
-            foreach (Teste teste in testes)
-                teste.AtribuirMateria(materia);
-        }
-
         private void ConfigurarParametrosMateria(Materia materia, SqlCommand comando)
         {
             comando.Parameters.AddWithValue("ID", materia.Id);
@@ -281,10 +253,12 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
                 Id = Convert.ToInt32(leitor["ID"]),
                 Nome = Convert.ToString(leitor["NOME"]),
                 Serie = (SerieMateriaEnum)leitor["SERIE"],
-                Disciplina = ConverterParaDisciplina(leitor)
+
             };
 
-            materia.AtribuirDisciplina();
+            Disciplina disciplina = ConverterParaDisciplina(leitor);
+
+            materia.AtribuirDisciplina(disciplina);
 
             return materia;
         }

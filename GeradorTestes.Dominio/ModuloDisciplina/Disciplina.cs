@@ -20,24 +20,19 @@ namespace GeradorTestes.Dominio.ModuloDisciplina
             Nome = nome;
         }
 
-        public override void AtualizarRegistro(EntidadeBase novoRegistro)
+        public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
         {
-            Disciplina novaDisciplina = (Disciplina)novoRegistro;
+            List<Questao> questoesRelacionadas = new List<Questao>();
 
-            Nome = novaDisciplina.Nome;
-        }
+            foreach (Materia mat in Materias)
+                questoesRelacionadas.AddRange(mat.Questoes);
 
-        public override List<string> Validar()
-        {
-            List<string> erros = new List<string>();
+            Random random = new Random();
 
-            if (string.IsNullOrEmpty(Nome.Trim()))
-                erros.Add("O nome da disciplina deve ser preenchido!");
-
-            else if (Nome.Trim().Length < 3)
-                erros.Add("O nome da disciplina deve conter ao menos 3 caracteres!");
-
-            return erros;
+            return questoesRelacionadas
+                .OrderBy(q => random.Next())
+                .Take(quantidadeQuestoes)
+                .ToList();
         }
 
         public bool AdicionarMateria(Materia materia)
@@ -60,24 +55,36 @@ namespace GeradorTestes.Dominio.ModuloDisciplina
             return true;
         }
 
+        public override void AtualizarRegistro(EntidadeBase novoRegistro)
+        {
+            Disciplina novaDisciplina = (Disciplina)novoRegistro;
+
+            Nome = novaDisciplina.Nome;
+        }
+
+        public override List<string> Validar()
+        {
+            List<string> erros = new List<string>();
+
+            if (string.IsNullOrEmpty(Nome.Trim()))
+                erros.Add("O nome da disciplina deve ser preenchido!");
+
+            else if (Nome.Trim().Length < 3)
+                erros.Add("O nome da disciplina deve conter ao menos 3 caracteres!");
+
+            return erros;
+        }
+
         public override string ToString()
         {
             return $"{Nome}";
         }
 
-        public List<Questao> ObterQuestoesAleatorias(int quantidadeQuestoes)
+        public override bool Equals(object? obj)
         {
-            List<Questao> questoesRelacionadas = new List<Questao>();
-
-            foreach (Materia mat in Materias)
-                questoesRelacionadas.AddRange(mat.Questoes);
-
-            Random random = new Random();
-
-            return questoesRelacionadas
-                .OrderBy(q => random.Next())
-                .Take(quantidadeQuestoes)
-                .ToList();
+            return obj is Disciplina disciplina &&
+                   Id == disciplina.Id &&
+                   Nome == disciplina.Nome;
         }
     }
 }
