@@ -23,7 +23,8 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 [DATA_GERACAO],
                 [PROVA_RECUPERACAO],
                 [MATERIA_ID],
-                [DISCIPLINA_ID]
+                [DISCIPLINA_ID],
+                [QUANTIDADE_QUESTOES]
 	        )
 	        VALUES
             (
@@ -31,7 +32,8 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 @DATA_GERACAO,
                 @PROVA_RECUPERACAO,
                 @MATERIA_ID,
-                @DISCIPLINA_ID
+                @DISCIPLINA_ID,
+                @QUANTIDADE_QUESTOES
             );";
 
         private const string sqlExcluir =
@@ -63,6 +65,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 	            T.TITULO,            
 	            T.DATA_GERACAO,       
 	            T.PROVA_RECUPERACAO,            
+	            T.QUANTIDADE_QUESTOES,            
                    
 	            D.ID                    DISCIPLINA_ID,
 	            D.NOME                  DISCIPLINA_NOME,
@@ -85,6 +88,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 	            T.TITULO,
 	            T.DATA_GERACAO,
 	            T.PROVA_RECUPERACAO,
+                T.QUANTIDADE_QUESTOES,
                    
 	            D.ID                    DISCIPLINA_ID,
 	            D.NOME                  DISCIPLINA_NOME,
@@ -306,6 +310,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
             comando.Parameters.AddWithValue("PROVA_RECUPERACAO", teste.ProvaRecuperacao);
             comando.Parameters.AddWithValue("MATERIA_ID", teste.Materia.Id);
             comando.Parameters.AddWithValue("DISCIPLINA_ID", teste.Disciplina.Id);
+            comando.Parameters.AddWithValue("QUANTIDADE_QUESTOES", teste.QuantidadeQuestoes);
         }
 
         private Teste ConverterParaTeste(SqlDataReader leitor)
@@ -316,6 +321,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 Titulo = Convert.ToString(leitor["TITULO"]),
                 DataGeracao = Convert.ToDateTime(leitor["DATA_GERACAO"]),
                 ProvaRecuperacao = Convert.ToBoolean(leitor["PROVA_RECUPERACAO"]),
+                QuantidadeQuestoes = Convert.ToInt32(leitor["QUANTIDADE_QUESTOES"]),
             };
 
             Materia materiaSelecionada = ConverterParaMateria(leitor);
