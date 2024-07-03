@@ -24,10 +24,13 @@ namespace GeradorTestes.Dominio.ModuloQuestao
             UtilizadaEmTeste = false;
         }
 
-        public Questao(string enunciado, Materia materia) : this()
+        public Questao(string enunciado, Materia materia, List<Alternativa> alternativas) : this()
         {
             Enunciado = enunciado;
             Materia = materia;
+
+            foreach (Alternativa a in alternativas)
+                AdicionarAlternativa(a);
         }
 
         public void AtribuirMateria(Materia materia)
@@ -56,17 +59,17 @@ namespace GeradorTestes.Dominio.ModuloQuestao
             if (Enunciado.Length < 2)
                 erros.Add($"O nome do enunciado deve ter mais de 2 letras!");
 
-            //if (Alternativas.Count(x => x.Correta) == 0)
-            //    erros.Add("Nenhuma alternativa correta foi informada");
+            if (Alternativas.Count(x => x.Correta) == 0)
+                erros.Add("Nenhuma alternativa correta foi informada");
 
-            //if (Alternativas.Count(x => x.Correta) > 1)
-            //    erros.Add("Apenas uma alternativa pode ser correta");
+            if (Alternativas.Count(x => x.Correta) > 1)
+                erros.Add("Apenas uma alternativa pode ser correta");
 
-            //if (Alternativas.Count < 3)
-            //    erros.Add("No mínimo 3 alternativas precisam ser informadas");
+            if (Alternativas.Count < 3)
+                erros.Add("No mínimo 3 alternativas precisam ser informadas");
 
-            //if (Alternativas.Count > 5)
-            //    erros.Add("No máximo 5 alternativas devem ser informadas");
+            if (Alternativas.Count > 5)
+                erros.Add("No máximo 5 alternativas devem ser informadas");
 
             return erros;
         }
@@ -91,6 +94,11 @@ namespace GeradorTestes.Dominio.ModuloQuestao
                    Id == questao.Id &&
                    Enunciado == questao.Enunciado &&
                    UtilizadaEmTeste == questao.UtilizadaEmTeste;
+        }
+
+        public void RemoverAlternativas()
+        {
+            Alternativas.Clear();
         }
     }
 }

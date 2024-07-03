@@ -7,8 +7,5 @@
         bool Excluir(int id);
         Questao SelecionarPorId(int id);
         List<Questao> SelecionarTodos();
-
-        void AdicionarAlternativas(Questao questao, List<Alternativa> alternativasSelecionadas);
-        void AtualizarAlternativas(Questao questao, List<Alternativa> alternativasSelecionadas);
     }
 }

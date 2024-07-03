@@ -39,7 +39,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 		    WHERE
 			    [ID] = @ID";
 
-        private string sqlExcluir =>
+        private const string sqlExcluir =
             @"DELETE FROM [TBMATERIA]
 		        WHERE
 			        [ID] = @ID";

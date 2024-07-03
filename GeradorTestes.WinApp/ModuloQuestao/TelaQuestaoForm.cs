@@ -52,7 +52,7 @@ namespace GeradorTestes.WinApp.ModuloQuestao
             string enunciado = txtEnunciado.Text;
             Materia materia = (Materia)cmbMaterias.SelectedItem;
 
-            questao = new Questao(enunciado, materia);
+            questao = new Questao(enunciado, materia, AlternativasSelecionadas);
 
             List<string> erros = questao.Validar();
 
