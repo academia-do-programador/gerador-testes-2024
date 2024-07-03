@@ -54,6 +54,13 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
             );";
 
+        private const string sqlMarcarQuestaoUtilizada =
+         @"UPDATE [TBQUESTAO]
+            SET
+                [UTILIZADA_EM_TESTE] = @UTILIZADA_EM_TESTE
+            WHERE
+                [ID] = @QUESTAO_ID;";
+
         private const string sqlRemoverQuestoesTeste =
           @"DELETE FROM [TBTESTE_TBQUESTAO]
 		    WHERE
@@ -115,7 +122,7 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
 	            M.ID            [MATERIA_ID],
 	            M.NOME          [MATERIA_NOME],
-                M.SERIE         [MATERIA_SERIE],
+                M.SERIE         [MATERIA_SERIE]
             FROM 
 	            TBQUESTAO AS Q 
 
@@ -257,6 +264,14 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
                 comandoInsercao.Parameters.AddWithValue("QUESTAO_ID", questao.Id);
 
                 comandoInsercao.ExecuteNonQuery();
+
+                SqlCommand comandoAtualizacao =
+                    new SqlCommand(sqlMarcarQuestaoUtilizada, conexaoComBanco);
+
+                comandoAtualizacao.Parameters.AddWithValue("UTILIZADA_EM_TESTE", questao.UtilizadaEmTeste);
+                comandoAtualizacao.Parameters.AddWithValue("QUESTAO_ID", questao.Id);
+
+                comandoAtualizacao.ExecuteNonQuery();
             }
 
             conexaoComBanco.Close();
@@ -349,9 +364,9 @@ namespace GeradorTestes.Infra.Sql.ModuloTeste
 
             };
 
-            Disciplina disciplina = ConverterParaDisciplina(leitor);
+            //Disciplina disciplina = ConverterParaDisciplina(leitor);
 
-            materia.AtribuirDisciplina(disciplina);
+            //materia.AtribuirDisciplina(disciplina);
 
             return materia;
         }

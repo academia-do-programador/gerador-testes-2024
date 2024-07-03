@@ -82,7 +82,7 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
             @"SELECT 
 		                [ID],
                         [ENUNCIADO],
-                        [UTILIZA_DA_EM_TESTE]                
+                        [UTILIZADA_EM_TESTE]                
 	                FROM 
 		                [TBQUESTAO]
 
@@ -204,9 +204,11 @@ namespace GeradorTestes.Infra.Sql.ModuloMateria
 
             while (leitorDisciplina.Read())
             {
-                Materia disciplina = ConverterParaMateria(leitorDisciplina);
+                Materia materia = ConverterParaMateria(leitorDisciplina);
 
-                materias.Add(disciplina);
+                CarregarQuestoes(materia);
+
+                materias.Add(materia);
             }
 
             conexaoComBanco.Close();

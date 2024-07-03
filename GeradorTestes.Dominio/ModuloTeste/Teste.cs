@@ -126,8 +126,8 @@ namespace GeradorTestes.Dominio.ModuloTeste
 
         public void RemoverQuestoesAtuais()
         {
-            foreach (Questao q in Questoes)
-                RemoverQuestao(q);
+            for (int i = 0; i < Questoes.Count; i++)
+                RemoverQuestao(Questoes[i]);
         }
 
         public override void AtualizarRegistro(EntidadeBase novoRegistro)

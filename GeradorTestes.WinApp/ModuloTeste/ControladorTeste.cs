@@ -1,5 +1,6 @@
 ﻿using GeradorDeTestes.WinApp.Compartilhado;
 using GeradorTestes.Dominio.ModuloDisciplina;
+using GeradorTestes.Dominio.ModuloMateria;
 using GeradorTestes.Dominio.ModuloTeste;
 
 namespace GeradorTestes.WinApp.ModuloTeste
@@ -16,11 +17,13 @@ namespace GeradorTestes.WinApp.ModuloTeste
         TabelaTesteControl tabelaTeste;
 
         IRepositorioDisciplina repositorioDisciplina;
+        IRepositorioMateria repositorioMateria;
         IRepositorioTeste repositorioTeste;
 
-        public ControladorTeste(IRepositorioDisciplina repositorioDisciplina, IRepositorioTeste repositorioTeste)
+        public ControladorTeste(IRepositorioDisciplina repositorioDisciplina, IRepositorioMateria repositorioMateria, IRepositorioTeste repositorioTeste)
         {
             this.repositorioDisciplina = repositorioDisciplina;
+            this.repositorioMateria = repositorioMateria;
             this.repositorioTeste = repositorioTeste;
         }
 
@@ -28,7 +31,9 @@ namespace GeradorTestes.WinApp.ModuloTeste
         {
             List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
 
-            TelaTesteForm telaTeste = new TelaTesteForm(disciplinasCadastradas);
+            List<Materia> materiasCadastradas = repositorioMateria.SelecionarTodos();
+
+            TelaTesteForm telaTeste = new TelaTesteForm(disciplinasCadastradas, materiasCadastradas);
 
             DialogResult resultado = telaTeste.ShowDialog();
 
@@ -104,7 +109,9 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
             List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
 
-            TelaTesteForm telaTeste = new TelaTesteForm(disciplinasCadastradas);
+            List<Materia> materiasCadastradas = repositorioMateria.SelecionarTodos();
+
+            TelaTesteForm telaTeste = new TelaTesteForm(disciplinasCadastradas, materiasCadastradas);
 
             telaTeste.Teste = testeSelecionado;
 
