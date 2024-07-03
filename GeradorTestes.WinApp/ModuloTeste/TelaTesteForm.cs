@@ -50,7 +50,9 @@ namespace GeradorTestes.WinApp.ModuloTeste
 
             bool provaRecuperacao = chkProvaRecuperacao.Checked;
 
-            teste = new Teste(titulo, disciplina, materia, provaRecuperacao);
+            int quantidadeQuestoes = (int)txtQtdQuestoes.Value;
+
+            teste = new Teste(titulo, disciplina, materia, provaRecuperacao, quantidadeQuestoes);
 
             List<string> erros = teste.Validar();
 
@@ -74,22 +76,9 @@ namespace GeradorTestes.WinApp.ModuloTeste
                 return;
             }
 
-            List<Questao> questoesSelecionadas;
-
             int quantidadeQuestoes = Convert.ToInt32(txtQtdQuestoes.Value);
 
-            if (chkProvaRecuperacao.Checked)
-            {
-                Disciplina disciplinaSelecionada = (Disciplina)cmbDisciplinas.SelectedItem;
-
-                questoesSelecionadas = disciplinaSelecionada.ObterQuestoesAleatorias(quantidadeQuestoes);
-            }
-            else
-            {
-                Materia materiaSelecionada = (Materia)cmbMaterias.SelectedItem;
-
-                questoesSelecionadas = materiaSelecionada.ObterQuestoesAleatorias(quantidadeQuestoes);
-            }
+            List<Questao> questoesSelecionadas = teste.SortearQuestoes();
 
             listQuestoes.Items.Clear();
 

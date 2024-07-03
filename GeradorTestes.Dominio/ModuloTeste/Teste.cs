@@ -9,37 +9,49 @@ namespace GeradorTestes.Dominio.ModuloTeste
     {
         public string Titulo { get; set; }
 
+        public DateTime DataGeracao { get; set; }
+
+        public bool ProvaRecuperacao { get; set; }
+
         public Disciplina Disciplina { get; set; }
 
         public Materia Materia { get; set; }
 
         public List<Questao> Questoes { get; set; }
 
-        public DateTime DataGeracao { get; set; }
-
-        public bool ProvaRecuperacao { get; set; }
+        public int QuantidadeQuestoes { get; set; }
 
         public Teste()
         {
             Questoes = new List<Questao>();
         }
 
-        public Teste(string titulo, Disciplina disciplina, Materia materia, bool provaRecuperacao) : this()
+        public Teste(string titulo, Disciplina disciplina, Materia materia, bool provaRecuperacao, int quantidadeQuestoes) : this()
         {
             Titulo = titulo;
             Disciplina = disciplina;
             Materia = materia;
             ProvaRecuperacao = provaRecuperacao;
-
+            QuantidadeQuestoes = quantidadeQuestoes;
             DataGeracao = DateTime.Now;
+        }
+
+        public List<Questao> SortearQuestoes()
+        {
+            List<Questao> questoesSorteadas = new List<Questao>(QuantidadeQuestoes);
+
+            if (ProvaRecuperacao)
+                questoesSorteadas = Disciplina.ObterQuestoesAleatorias(QuantidadeQuestoes);
+            else
+                questoesSorteadas = Materia.ObterQuestoesAleatorias(QuantidadeQuestoes);
+
+            return questoesSorteadas;
         }
 
         public void AtribuirDisciplina(Disciplina disciplinaSelecionada)
         {
             if (disciplinaSelecionada == null)
                 return;
-
-            disciplinaSelecionada.AdicionarTeste(this);
 
             Disciplina = disciplinaSelecionada;
         }
@@ -48,8 +60,6 @@ namespace GeradorTestes.Dominio.ModuloTeste
         {
             if (Disciplina == null)
                 return;
-
-            Disciplina.RemoverTeste(this);
 
             Disciplina = null;
         }
@@ -60,16 +70,12 @@ namespace GeradorTestes.Dominio.ModuloTeste
                 return;
 
             Materia = materiaSelecionada;
-
-            materiaSelecionada.AdicionarTeste(this);
         }
 
         public void RemoverMateria()
         {
             if (Materia == null)
                 return;
-
-            Materia.RemoverTeste(this);
 
             Materia = null;
         }
@@ -116,6 +122,12 @@ namespace GeradorTestes.Dominio.ModuloTeste
             }
 
             return erros;
+        }
+
+        private void RemoverQuestoesAtuais()
+        {
+            foreach (Questao q in Questoes)
+                RemoverQuestao(q);
         }
 
         public override void AtualizarRegistro(EntidadeBase novoRegistro)

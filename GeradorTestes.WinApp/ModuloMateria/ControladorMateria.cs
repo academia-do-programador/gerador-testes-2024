@@ -106,21 +106,10 @@ namespace GeradorTestes.WinApp.ModuloMateria
                 return;
             }
 
-            if (materiaSelecionada.Questoes.Count > 0)
+            if (materiaSelecionada.Questoes.Count(q => q.UtilizadaEmTeste) > 0)
             {
                 MessageBox.Show(
                     "Você precisa remover as questões relacionadas antes de excluir a matéria!",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            if (materiaSelecionada.Testes.Count > 0)
-            {
-                MessageBox.Show(
-                    "Você precisa remover os testes relacionados antes de excluir a matéria!",
                     "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
